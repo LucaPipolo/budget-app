@@ -1,0 +1,69 @@
+# Env & Auth
+.env
+.env.backup
+.env.production
+auth.json
+/auth.json
+
+# Storage folders
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/debugbar
+/storage/pail
+
+# Dependencies
+/node_modules
+/vendor
+
+# Logs
+npm-debug.log
+yarn-error.log
+
+# Laravel Telescope
+/public/vendor/telescope
+/storage/telescope
+
+# Tests
+.phpunit.result.cache
+/.phpunit.cache
+/tests/coverage
+
+# Git
+.project
+.well-known
+/tags
+.github/.version
+.github/.release-notes
+
+# Patch/diff artifacts
+*.diff
+*.orig
+*.rej
+interdiff*.txt
+
+# Editors
+/.idea
+.phpstorm.meta.php
+/.vscode
+/.fleet
+
+# Vim
+*.un~
+Session.vim
+.netrwhist
+*~
+*.swp
+.lvimrc
+
+# IDE Helpers
+_ide_helper.php
+_ide_helper_models.php
+.phpactor.json
+/.zed
+/.nova
+
+# Homestead
+Homestead.json
+Homestead.yaml
