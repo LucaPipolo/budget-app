@@ -12,12 +12,16 @@
         <div class="col-span-6">
             <x-label value="{{ __('Team Owner') }}" />
 
-            <div class="flex items-center mt-2">
-                <img class="size-12 rounded-full object-cover" src="{{ $team->owner->profile_photo_url }}" alt="{{ $team->owner->name }}">
+            <div class="mt-2 flex items-center">
+                <img
+                    class="size-12 rounded-full object-cover"
+                    src="{{ $team->owner->profile_photo_url }}"
+                    alt="{{ $team->owner->name }}"
+                />
 
                 <div class="ms-4 leading-tight">
                     <div class="text-gray-900 dark:text-white">{{ $team->owner->name }}</div>
-                    <div class="text-gray-700 dark:text-gray-300 text-sm">{{ $team->owner->email }}</div>
+                    <div class="text-sm text-gray-700 dark:text-gray-300">{{ $team->owner->email }}</div>
                 </div>
             </div>
         </div>
@@ -26,11 +30,13 @@
         <div class="col-span-6 sm:col-span-4">
             <x-label for="name" value="{{ __('Team Name') }}" />
 
-            <x-input id="name"
-                        type="text"
-                        class="mt-1 block w-full"
-                        wire:model="state.name"
-                        :disabled="! Gate::check('update', $team)" />
+            <x-input
+                id="name"
+                type="text"
+                class="mt-1 block w-full"
+                wire:model="state.name"
+                :disabled="! Gate::check('update', $team)"
+            />
 
             <x-input-error for="name" class="mt-2" />
         </div>

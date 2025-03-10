@@ -25,7 +25,7 @@ the following steps: `alias sail='bash vendor/bin/sail'`.**
 
 1. Clone the repository:
 
-   `git clone git@github.com:LucaPipolo/budget-app.git && cd budget-app`
+    `git clone git@github.com:LucaPipolo/budget-app.git && cd budget-app`
 
 2. Install Composer dependencies:
 
@@ -40,27 +40,27 @@ the following steps: `alias sail='bash vendor/bin/sail'`.**
 
 3. Create .env file:
 
-   `cp .env.example .env`
+    `cp .env.example .env`
 
 4. Start Laravel Sail:
 
-   `sail up`
+    `sail up`
 
 5. Generate an app key
 
-   `sail php artisan key:generate`
+    `sail php artisan key:generate`
 
 6. Install NPM dependencies.
 
-   `sail bun install`
+    `sail bun install`
 
 7. Build assets
 
-   `sail bun dev`
+    `sail bun dev`
 
 8. Run migrations and seed the database
 
-   `sail php artisan migrate:fresh --seed`
+    `sail php artisan migrate:fresh --seed`
 
 ## How to Contribute
 
@@ -71,5 +71,5 @@ For security vulnerabilities, consult our [Security Policy](https://github.com/L
 
 ## License
 
-Licensed under [GNU AFFERO GENERAL PUBLIC LICENSE](https://github.com/LucaPipolo/budget-app/blob/main/LICENSE) 
+Licensed under [GNU AFFERO GENERAL PUBLIC LICENSE](https://github.com/LucaPipolo/budget-app/blob/main/LICENSE)
 — Copyright (C) 2025 somoscuatro.
