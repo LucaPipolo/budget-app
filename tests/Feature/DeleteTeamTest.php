@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature;
 
 use App\Models\Team;
@@ -22,7 +24,8 @@ class DeleteTeamTest extends TestCase
         ]));
 
         $team->users()->attach(
-            $otherUser = User::factory()->create(), ['role' => 'test-role']
+            $otherUser = User::factory()->create(),
+            ['role' => 'test-role']
         );
 
         Livewire::test(DeleteTeamForm::class, ['team' => $team->fresh()])
