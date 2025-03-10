@@ -2,6 +2,8 @@
     "private": true,
     "type": "module",
     "scripts": {
+        "lint": "bunx prettier --check .",
+        "format": "bunx prettier --write .",
         "build": "vite build",
         "dev": "vite"
     },
