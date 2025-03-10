@@ -2,25 +2,29 @@
 
 declare(strict_types=1);
 use App\Models\User;
+use Filament\Pages\Auth\Login;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+
+use function Pest\Livewire\livewire;
 
 uses(RefreshDatabase::class);
 
 test('login screen can be rendered', function (): void {
-    $response = $this->get('/login');
+    $response = $this->get('/app/login');
 
     $response->assertStatus(200);
 });
 test('users can authenticate using the login screen', function (): void {
-    $user = User::factory()->create();
+    $user = User::factory()->create(['password' => bcrypt('password')]);
 
-    $response = $this->post('/login', [
-        'email' => $user->email,
-        'password' => 'password',
-    ]);
+    $response = livewire(Login::class)
+        ->set('data.email', $user->email)
+        ->set('data.password', 'password')
+        ->call('authenticate');
 
-    $this->assertAuthenticated();
-    $response->assertRedirect(route('dashboard', absolute: false));
+    expect(auth()->check())->toBeTrue();
+
+    $response->assertRedirect('/app/new');
 });
 test('users can not authenticate with invalid password', function (): void {
     $user = User::factory()->create();
