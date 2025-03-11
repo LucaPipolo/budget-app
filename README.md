@@ -66,8 +66,12 @@ the following steps: `alias sail='bash vendor/bin/sail'`.**
 
 Contributions are welcome!
 
-Read our [Code of Conduct](https://github.com/LucaPipolo/budget-app/blob/main/CODE_OF_CONDUCT.md) before contributing.
-For security vulnerabilities, consult our [Security Policy](https://github.com/LucaPipolo/budget-app/blob/main/SECURITY.md).
+Read our [Code of Conduct](https://github.com/LucaPipolo/budget-app/blob/main/CODE_OF_CONDUCT.md)
+and [the Contributing guidelines](https://github.com/LucaPipolo/budget-app/blob/main/CONTRIBUTING.md) before
+contributing.
+
+For security vulnerabilities, consult
+our [Security Policy](https://github.com/LucaPipolo/budget-app/blob/main/SECURITY.md).
 
 ## License
 
