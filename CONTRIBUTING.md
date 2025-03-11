@@ -1,17 +1,15 @@
-# Contributing to Budget-App
+# Contributing to Budget App
 
 Thank you for contributing to this project!
 
 To maintain high code quality and ensure consistency, we use several tools and follow specific guidelines. Please review
 this document before submitting your contributions.
 
----
-
 ## Code Quality Tools
 
 We use the following tools to enforce code quality and standards:
 
-### 1. **Laravel Pint**
+### Laravel Pint
 
 [Laravel Pint](https://laravel.com/docs/pint) is used to automatically format PHP code according to
 the [PSR-12 coding standard](https://www.php-fig.org/psr/psr-12/).
@@ -21,7 +19,7 @@ the [PSR-12 coding standard](https://www.php-fig.org/psr/psr-12/).
 | `sail composer run lint`   | Check for formatting issues without applying changes. |
 | `sail composer run format` | Automatically format PHP code.                        |
 
-### 2. **Prettier**
+### Prettier
 
 [Prettier](https://prettier.io/) ensures consistent formatting for frontend assets such as Blade views, JavaScript, CSS,
 and other files.
@@ -31,7 +29,7 @@ and other files.
 | `sail bun run lint`   | Check for formatting issues without applying changes. |
 | `sail bun run format` | Automatically format frontend files.                  |
 
-### 3. **Commitlint**
+### Commitlint
 
 We use [commitlint](https://github.com/conventional-changelog/commitlint) to enforce
 the [Conventional Commits](https://www.conventionalcommits.org/) standard for commit messages.
@@ -39,7 +37,7 @@ the [Conventional Commits](https://www.conventionalcommits.org/) standard for co
 Please check [the Conventional Commits specification](https://www.conventionalcommits.org/en/v1.0.0/#specification) to
 learn more.
 
-### 4. **PHP Insights**
+### PHP Insights
 
 [PHP Insights](https://phpinsights.com/) provides insights into the quality of PHP code, including metrics for
 complexity, readability, and security.
@@ -48,13 +46,17 @@ complexity, readability, and security.
 | ---------------------------- | ------------------------------------------ |
 | `sail composer run insights` | Analyze PHP code quality and get insights. |
 
----
+## Pre-Commit Hooks
+
+Thanks to [lint-staged](https://github.com/okonet/lint-staged) and [Husky](https://typicode.github.io/husky/), Laravel
+Pint and Prettier are automatically run before every commit to ensure code quality.
+You don’t need to manually run these commands before committing — Husky takes care of it!
 
 ## Testing
 
 We use [Pest](https://pestphp.com/) for testing.
 
-### Available Commands:
+Available commands are:
 
 | Command                                    | Description                                |
 | ------------------------------------------ | ------------------------------------------ |
@@ -69,11 +71,3 @@ We also use [Laravel Dusk](https://laravel.com/docs/dusk) for browser-based end-
 | Command     | Description                 |
 | ----------- | --------------------------- |
 | `sail dusk` | Run all Dusk browser tests. |
-
----
-
-## Pre-Commit Hooks
-
-Thanks to [lint-staged](https://github.com/okonet/lint-staged) and [Husky](https://typicode.github.io/husky/), Laravel
-Pint and Prettier are automatically run before every commit to ensure code quality.
-You don’t need to manually run these commands before committing — Husky takes care of it!
