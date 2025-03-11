@@ -62,11 +62,17 @@ class User extends Authenticatable implements FilamentUser, HasTenants, MustVeri
         'profile_photo_url',
     ];
 
+    /**
+     * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter
+     */
     public function canAccessPanel(Panel $panel): bool
     {
         return true;
     }
 
+    /**
+     * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter
+     */
     public function getTenants(Panel $panel): Collection
     {
         return $this->allTeams();

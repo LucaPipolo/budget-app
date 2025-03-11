@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Listeners;
 
 use App\Models\Team;
-use App\Models\User;
 use Filament\Events\Auth\Registered;
 use Laravel\Jetstream\Features;
 
@@ -16,7 +15,7 @@ class CreatePersonalTeam
      */
     public function __construct()
     {
-        //
+        // Preserve brace position.
     }
 
     /**

@@ -14,7 +14,7 @@ class SwitchTeam
      */
     public function __construct()
     {
-        //
+        // Preserve brace position.
     }
 
     /**

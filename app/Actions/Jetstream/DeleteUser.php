@@ -15,7 +15,10 @@ class DeleteUser implements DeletesUsers
     /**
      * Create a new action instance.
      */
-    public function __construct(protected DeletesTeams $deletesTeams) {}
+    public function __construct(protected DeletesTeams $deletesTeams)
+    {
+        // Preserve brace position.
+    }
 
     /**
      * Delete the given user.

@@ -12,6 +12,8 @@ class Membership extends JetstreamMembership
      * Indicates if the IDs are auto-incrementing.
      *
      * @var bool
+     *
+     * @phpcsSuppress SlevomatCodingStandard.Classes.ForbiddenPublicProperty
      */
     public $incrementing = true;
 }
