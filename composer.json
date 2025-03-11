@@ -68,7 +68,8 @@
         ],
         "lint": "vendor/bin/pint --test",
         "format": "vendor/bin/pint",
-        "sniff": "vendor/bin/phpstan analyse --memory-limit 1G"
+        "sniff": "vendor/bin/phpstan analyse --memory-limit 1G",
+        "insights": "php artisan insights"
     },
     "extra": {
         "laravel": {
