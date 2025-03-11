@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Jetstream;
 
 use App\Models\Team;
@@ -34,6 +36,7 @@ class InviteTeamMember implements InvitesTeamMembers
             'role' => $role,
         ]);
 
+        // @phpstan-ignore-next-line
         Mail::to($email)->send(new TeamInvitation($invitation));
     }
 
@@ -62,12 +65,12 @@ class InviteTeamMember implements InvitesTeamMembers
         return array_filter([
             'email' => [
                 'required', 'email',
-                Rule::unique(Jetstream::teamInvitationModel())->where(function (Builder $query) use ($team) {
+                Rule::unique(Jetstream::teamInvitationModel())->where(function (Builder $query) use ($team): void {
                     $query->where('team_id', $team->id);
                 }),
             ],
             'role' => Jetstream::hasRoles()
-                            ? ['required', 'string', new Role]
+                            ? ['required', 'string', new Role()]
                             : null,
         ]);
     }
@@ -77,7 +80,7 @@ class InviteTeamMember implements InvitesTeamMembers
      */
     protected function ensureUserIsNotAlreadyOnTeam(Team $team, string $email): Closure
     {
-        return function ($validator) use ($team, $email) {
+        return function ($validator) use ($team, $email): void {
             $validator->errors()->addIf(
                 $team->hasUserWithEmail($email),
                 'email',

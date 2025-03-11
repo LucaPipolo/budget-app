@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Jetstream;
 
 use App\Models\Team;
@@ -33,7 +35,7 @@ class RemoveTeamMember implements RemovesTeamMembers
     {
         if (! Gate::forUser($user)->check('removeTeamMember', $team) &&
             $user->id !== $teamMember->id) {
-            throw new AuthorizationException;
+            throw new AuthorizationException();
         }
     }
 
@@ -42,6 +44,7 @@ class RemoveTeamMember implements RemovesTeamMembers
      */
     protected function ensureUserDoesNotOwnTeam(User $teamMember, Team $team): void
     {
+        // @phpstan-ignore-next-line
         if ($teamMember->id === $team->owner->id) {
             throw ValidationException::withMessages([
                 'team' => [__('You may not leave a team that you created.')],

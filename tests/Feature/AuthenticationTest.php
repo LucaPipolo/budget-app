@@ -1,44 +1,38 @@
 <?php
 
-namespace Tests\Feature;
-
+declare(strict_types=1);
 use App\Models\User;
+use Filament\Pages\Auth\Login;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 
-class AuthenticationTest extends TestCase
-{
-    use RefreshDatabase;
+use function Pest\Livewire\livewire;
 
-    public function test_login_screen_can_be_rendered(): void
-    {
-        $response = $this->get('/login');
+uses(RefreshDatabase::class);
 
-        $response->assertStatus(200);
-    }
+test('login screen can be rendered', function (): void {
+    $response = $this->get('/app/login');
 
-    public function test_users_can_authenticate_using_the_login_screen(): void
-    {
-        $user = User::factory()->create();
+    $response->assertStatus(200);
+});
+test('users can authenticate using the login screen', function (): void {
+    $user = User::factory()->create(['password' => bcrypt('password')]);
 
-        $response = $this->post('/login', [
-            'email' => $user->email,
-            'password' => 'password',
-        ]);
+    $response = livewire(Login::class)
+        ->set('data.email', $user->email)
+        ->set('data.password', 'password')
+        ->call('authenticate');
 
-        $this->assertAuthenticated();
-        $response->assertRedirect(route('dashboard', absolute: false));
-    }
+    expect(auth()->check())->toBeTrue();
 
-    public function test_users_can_not_authenticate_with_invalid_password(): void
-    {
-        $user = User::factory()->create();
+    $response->assertRedirect('/app/new');
+});
+test('users can not authenticate with invalid password', function (): void {
+    $user = User::factory()->create();
 
-        $this->post('/login', [
-            'email' => $user->email,
-            'password' => 'wrong-password',
-        ]);
+    $this->post('/login', [
+        'email' => $user->email,
+        'password' => 'wrong-password',
+    ]);
 
-        $this->assertGuest();
-    }
-}
+    $this->assertGuest();
+});

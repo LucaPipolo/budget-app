@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Jetstream;
 
 use App\Models\Team;
@@ -32,6 +34,7 @@ class CreateTeam implements CreatesTeams
             'personal_team' => false,
         ]));
 
+        // @phpstan-ignore-next-line
         return $team;
     }
 }

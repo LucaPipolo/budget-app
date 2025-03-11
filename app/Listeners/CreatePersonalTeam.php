@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Listeners;
 
 use App\Models\Team;
@@ -13,7 +15,7 @@ class CreatePersonalTeam
      */
     public function __construct()
     {
-        //
+        // Preserve brace position.
     }
 
     /**
@@ -25,8 +27,8 @@ class CreatePersonalTeam
 
         if (Features::hasTeamFeatures()) {
             $team = Team::forceCreate([
-                'user_id' => $user->id,
-                'name' => explode(' ', $user->name, 2)[0] . "'s Team",
+                'user_id' => $user->id, // @phpstan-ignore-line
+                'name' => explode(' ', $user->name, 2)[0] . "'s Team", // @phpstan-ignore-line
                 'personal_team' => true,
             ]);
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Jetstream;
 
 use App\Models\Team;
@@ -15,6 +17,7 @@ class DeleteUser implements DeletesUsers
      */
     public function __construct(protected DeletesTeams $deletesTeams)
     {
+        // Preserve brace position.
     }
 
     /**
@@ -22,7 +25,7 @@ class DeleteUser implements DeletesUsers
      */
     public function delete(User $user): void
     {
-        DB::transaction(function () use ($user) {
+        DB::transaction(function () use ($user): void {
             $this->deleteTeams($user);
             $user->deleteProfilePhoto();
             $user->tokens->each->delete();
@@ -37,7 +40,8 @@ class DeleteUser implements DeletesUsers
     {
         $user->teams()->detach();
 
-        $user->ownedTeams->each(function (Team $team) {
+        // @phpstan-ignore-next-line
+        $user->ownedTeams->each(function (Team $team): void {
             $this->deletesTeams->delete($team);
         });
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\Team;
@@ -12,6 +14,8 @@ class TeamPolicy
 
     /**
      * Determine whether the user can view any models.
+     *
+     * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter
      */
     public function viewAny(User $user): bool
     {
@@ -28,6 +32,8 @@ class TeamPolicy
 
     /**
      * Determine whether the user can create models.
+     *
+     * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter
      */
     public function create(User $user): bool
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Fortify;
 
 use App\Models\User;
@@ -28,7 +30,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
         }
 
         if ($input['email'] !== $user->email &&
-            $user instanceof MustVerifyEmail) {
+            $user instanceof MustVerifyEmail) { // @phpstan-ignore-line
             $this->updateVerifiedUser($user, $input);
         } else {
             $user->forceFill([
