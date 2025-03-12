@@ -71,3 +71,45 @@ We also use [Laravel Dusk](https://laravel.com/docs/dusk) for browser-based end-
 | Command     | Description                 |
 | ----------- | --------------------------- |
 | `sail dusk` | Run all Dusk browser tests. |
+
+## Debugging
+
+We provide several tools for debugging:
+
+### Laravel Debug Bar
+
+You can debug using the [Laravel Debug Bar](https://laraveldebugbar.com/), which provides detailed information about
+requests, queries, and more.
+Check [the official usage instructions](https://laraveldebugbar.com/usage/) to know more.
+
+### Xdebug
+
+To enable [Xdebug](https://xdebug.org/), add `SAIL_XDEBUG_MODE=develop,debug` to the `.env` file.
+
+We recommend using browser extensions such
+as [Xdebug helper for Chrome](https://chromewebstore.google.com/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc?hl=en)
+or [Xdebug helper for Firefox](https://addons.mozilla.org/en-US/firefox/addon/xdebug-helper-for-firefox/).
+
+You can enable additional Xdebug modes such
+as [coverage](https://xdebug.org/docs/code_coverage), [profile](https://xdebug.org/docs/profiler)
+or [trace](https://xdebug.org/docs/trace) simply by adding them to the environment variable, e.g.
+`SAIL_XDEBUG_MODE=develop,debug,profile,trace`.
+
+Note that enabling additional Xdebug modes like profile or trace may increase resource usage and slow down execution, so
+use them judiciously in development environments.
+
+### Laravel Telescope
+
+You can use [Laravel Telescope](https://laravel.com/docs/12.x/telescope) for monitoring and debugging application
+behavior, including requests, exceptions, scheduled tasks, and more.
+
+To disable Telescope, set `TELESCOPE_ENABLED=FALSE` in the `.env` file.
+
+### Sentry
+
+On staging environments, [Sentry](https://sentry.io/welcome/) is enabled for advanced debugging and error tracking
+capabilities.  
+Sentry captures application errors and performance issues, providing actionable insights to improve debugging workflows.
+
+If you are part of the somoscuatro development team, you should already have access. If not, request access
+from [Luca Pipolo](mailto:luca@somoscuatro.es) or [Joan López](mailto:joan@somoscuatro.es).
