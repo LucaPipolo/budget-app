@@ -7,10 +7,10 @@ use NunoMaduro\PhpInsights\Domain\Insights\ForbiddenDefineFunctions;
 use NunoMaduro\PhpInsights\Domain\Insights\ForbiddenFinalClasses;
 use NunoMaduro\PhpInsights\Domain\Insights\ForbiddenNormalClasses;
 use NunoMaduro\PhpInsights\Domain\Insights\ForbiddenPrivateMethods;
+use NunoMaduro\PhpInsights\Domain\Insights\ForbiddenSecurityIssues;
 use NunoMaduro\PhpInsights\Domain\Insights\ForbiddenTraits;
 use NunoMaduro\PhpInsights\Domain\Metrics\Architecture\Classes;
 use PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff;
-use SebastianBergmann\Complexity\Complexity;
 use SlevomatCodingStandard\Sniffs\Classes\ForbiddenPublicPropertySniff;
 use SlevomatCodingStandard\Sniffs\Classes\SuperfluousExceptionNamingSniff;
 use SlevomatCodingStandard\Sniffs\Commenting\DocCommentSpacingSniff;
@@ -100,6 +100,11 @@ return [
         DocCommentSpacingSniff::class,
         FunctionLengthSniff::class,
         ForbiddenPublicPropertySniff::class,
+        // Temporarily disable security check due to a bug in PHP Insights.
+        // @see https://github.com/nunomaduro/phpinsights/issues/704
+        // A PR was created to fix that. This line SHOULD be removed as soon as it get
+        // merged: https://github.com/nunomaduro/phpinsights/pull/705
+        ForbiddenSecurityIssues::class,
     ],
 
     'config' => [
