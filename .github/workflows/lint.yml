@@ -1,0 +1,74 @@
+# GitHub Action to run Laravel Pint + Prettier.
+
+name: Lint
+on:
+    push:
+        branches:
+            - main
+            - dev
+    pull_request:
+        branches:
+            - main
+            - dev
+jobs:
+    lint:
+        name: Lint
+        runs-on: ubuntu-latest
+
+        strategy:
+            fail-fast: false
+            matrix:
+                php-versions: ['8.4']
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            # Docs: https://github.com/shivammathur/setup-php
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php-versions }}
+                  extensions: mbstring, dom, fileinfo, pgsql
+                  coverage: xdebug
+
+            - name: Get Composer cache directory
+              id: composer-cache
+              run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+            - name: Cache composer dependencies
+              uses: actions/cache@v3
+              with:
+                  path: ${{ steps.composer-cache.outputs.dir }}
+                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+                  restore-keys: ${{ runner.os }}-composer-
+
+            - name: Install Composer dependencies
+              run: composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader
+
+            - name: Get bun cache directory
+              id: bun-cache
+              run: echo "dir=node_modules" >> $GITHUB_OUTPUT
+
+            - name: Cache bun dependencies
+              uses: actions/cache@v3
+              with:
+                  path: ${{ steps.bun-cache.outputs.dir }}
+                  key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+                  restore-keys: ${{ runner.os }}-bun-
+
+            - name: Install Bun
+              run: |
+                  curl -fsSL https://bun.sh/install | bash
+                  echo "$HOME/.bun/bin" >> $GITHUB_PATH
+
+            - name: Install Node dependencies and build frontend assets
+              run: |
+                  bun install
+                  bun run build
+
+            - name: Run Laravel Pint
+              run: composer run lint
+
+            - name: Run Prettier
+              run: bun run lint
