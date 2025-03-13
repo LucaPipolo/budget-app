@@ -1,0 +1,20 @@
+# GitHub Action to connect GitHub PRs with Asana tasks.
+# @see https://github.com/Asana/create-app-attachment-github-action
+
+name: Asana
+on:
+    pull_request:
+        types: [opened, reopened]
+
+jobs:
+    asana:
+        name: Asana
+        runs-on: ubuntu-latest
+        steps:
+            - name: Create pull request attachments
+              uses: Asana/create-app-attachment-github-action@latest
+              id: postAttachment
+              with:
+                  asana-secret: ${{ secrets.ASANA_SECRET }}
+            - name: Log output status
+              run: echo "Status is ${{ steps.postAttachment.outputs.status }}"
