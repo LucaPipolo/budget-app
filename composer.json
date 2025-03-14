@@ -1,6 +1,6 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "@somoscuatro/budget-app",
+    "name": "somoscuatro/budget-app",
     "description": "The leading financial tracking application for families in the European market.",
     "version": "0.1.0",
     "authors": [
