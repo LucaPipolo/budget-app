@@ -5,6 +5,11 @@ Thank you for contributing to this project!
 To maintain high code quality and ensure consistency, we use several tools and follow specific guidelines. Please review
 this document before submitting your contributions.
 
+## Setup
+
+To know how to run the project locally, please refer to the steps outlined
+in [this section of the README file](https://github.com/LucaPipolo/budget-app/blob/main/README.md#Setup).
+
 ## Code Quality Tools
 
 We use the following tools to enforce code quality and standards:
@@ -112,4 +117,42 @@ capabilities.
 Sentry captures application errors and performance issues, providing actionable insights to improve debugging workflows.
 
 If you are part of the somoscuatro development team, you should already have access. If not, request access
+from [Luca Pipolo](mailto:luca@somoscuatro.es) or [Joan López](mailto:joan@somoscuatro.es).
+
+## Working with the API
+
+The Budget App provides an API that developers can use for integrations and testing. The API collection is publicly
+available on Postman and is configured for the stage environment. You can access it using the Run in Postman button
+below:
+
+[<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://app.getpostman.com/run-collection/16254781-422c5f76-4438-42c2-9e44-f4779cce7b23?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D16254781-422c5f76-4438-42c2-9e44-f4779cce7b23%26entityType%3Dcollection%26workspaceId%3Ddeb06c9e-d726-4976-b31d-5448bb7c9692#?env%5BBudget%20App%20%5Bstage%5D%5D=W3sia2V5IjoiYmFzZV91cmwiLCJ2YWx1ZSI6Imh0dHBzOi8vc3RhZ2UtYmRhLnNvbW9zY3VhdHJvLmVzIiwiZW5hYmxlZCI6dHJ1ZSwidHlwZSI6ImRlZmF1bHQiLCJzZXNzaW9uVmFsdWUiOiJodHRwczovL3N0YWdlLWJkYS5zb21vc2N1YXRyby5lcyIsImNvbXBsZXRlU2Vzc2lvblZhbHVlIjoiaHR0cHM6Ly9zdGFnZS1iZGEuc29tb3NjdWF0cm8uZXMiLCJzZXNzaW9uSW5kZXgiOjB9LHsia2V5IjoidmVyc2lvbiIsInZhbHVlIjoidjEiLCJlbmFibGVkIjp0cnVlLCJ0eXBlIjoiZGVmYXVsdCIsInNlc3Npb25WYWx1ZSI6InYxIiwiY29tcGxldGVTZXNzaW9uVmFsdWUiOiJ2MSIsInNlc3Npb25JbmRleCI6MX1d)
+
+To simplify API requests, we
+use [Postman environment variables]([Postman environment variables](https://learning.postman.com/docs/sending-requests/variables/managing-environments/)).
+These variables allow you to dynamically set values like
+base URLs, authentication tokens, and other parameters. This ensures that requests are tailored to specific environments
+without requiring manual adjustments.
+
+Example Environment Variables:
+
+| Name       | Value                            | Description       |
+| ---------- | -------------------------------- | ----------------- |
+| `base_url` | https://stage-budget-app.com/api | The API base URL. |
+| `version`  | v1                               | The API version.  |
+
+Feel free to fork the collection and customize it for your needs. If you encounter any issues or have suggestions for
+improving the API documentation, please open an issue in this repository.
+
+## Deployment to Stage Environment
+
+The stage website is managed using [Laravel Forge](https://forge.laravel.com/) and [Envoyer](https://envoyer.io/),
+ensuring zero downtime
+deployment. Any changes pushed to
+the `dev` branch are automatically deployed to the stage website, allowing developers to test their updates in a
+real-world environment without manual intervention.
+
+The stage website is accessible at [stage-bda.somoscuatro.es](https://stage-bda.somoscuatro.es).
+
+If you are part of the somoscuatro development team, you should already have access to both Laravel Forge and Envoyer
+accounts. If not, request access
 from [Luca Pipolo](mailto:luca@somoscuatro.es) or [Joan López](mailto:joan@somoscuatro.es).
