@@ -5,6 +5,11 @@ Thank you for contributing to this project!
 To maintain high code quality and ensure consistency, we use several tools and follow specific guidelines. Please review
 this document before submitting your contributions.
 
+## Setup
+
+To know how to run the project locally, please refer to the steps outlined
+in [this section of the README file](https://github.com/LucaPipolo/budget-app/blob/main/README.md#Setup).
+
 ## Code Quality Tools
 
 We use the following tools to enforce code quality and standards:
