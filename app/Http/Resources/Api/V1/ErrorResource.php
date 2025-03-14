@@ -36,6 +36,8 @@ class ErrorResource extends JsonResource
      * @param  Request  $request
      *
      * @return array<string, mixed>
+     *
+     * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter
      */
     public function toArray($request): array
     {
@@ -47,7 +49,7 @@ class ErrorResource extends JsonResource
                 'title' => $error['title'] ?? 'Error',
             ];
 
-            if (! empty($error['detail'])) {
+            if (isset($error['detail']) && $error['detail'] !== '') {
                 $formattedError['detail'] = $error['detail'];
             }
 
@@ -61,6 +63,8 @@ class ErrorResource extends JsonResource
 
     /**
      * Customize the response with the correct HTTP status code.
+     *
+     * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter
      */
     public function withResponse(Request $request, $response): JsonResponse
     {
