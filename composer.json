@@ -35,7 +35,7 @@
         "pestphp/pest": "^3.7",
         "pestphp/pest-plugin-laravel": "^3.1",
         "pestphp/pest-plugin-livewire": "^3.0",
-        "pestphp/pest-plugin-type-coverage": "^3.3"
+        "pestphp/pest-plugin-type-coverage": "^3.4"
     },
     "autoload": {
         "psr-4": {
