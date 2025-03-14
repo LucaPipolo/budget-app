@@ -1,13 +1,16 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/laravel",
-    "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
-    "keywords": [
-        "laravel",
-        "framework"
+    "name": "@somoscuatro/budget-app",
+    "description": "The leading financial tracking application for families in the European market.",
+    "version": "0.1.0",
+    "authors": [
+        {
+            "name": "somoscuatro",
+            "homepage": "https://somoscuatro.com",
+            "email": "tech@somoscuatro.es"
+        }
     ],
-    "license": "MIT",
+    "license": "AGPL-3.0",
     "require": {
         "php": "^8.4",
         "filament/filament": "^3.2",
