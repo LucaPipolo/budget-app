@@ -1,5 +1,10 @@
 # Budget App
 
+[![Test Status](https://github.com/LucaPipolo/budget-app/actions/workflows/test-pest.yml/badge.svg)](https://github.com/LucaPipolo/budget-app/actions/workflows/test-pest.yml)
+[![Lint Status](https://github.com/LucaPipolo/budget-app/actions/workflows/lint.yml/badge.svg)](https://github.com/LucaPipolo/budget-app/actions/workflows/lint.yml)
+[![Sniff Status](https://github.com/LucaPipolo/budget-app/actions/workflows/sniff.yml/badge.svg)](https://github.com/LucaPipolo/budget-app/actions/workflows/sniff.yml)
+[![Analyze Status](https://github.com/LucaPipolo/budget-app/actions/workflows/analyze.yml/badge.svg)](https://github.com/LucaPipolo/budget-app/actions/workflows/analyze.yml)
+
 Welcome to the official repository of _Budget App_\*, the leading financial
 tracking application for families in the European market.
 
@@ -25,7 +30,7 @@ the following steps: `alias sail='bash vendor/bin/sail'`.**
 
 1. Clone the repository:
 
-   `git clone git@github.com:LucaPipolo/budget-app.git && cd budget-app`
+    `git clone git@github.com:LucaPipolo/budget-app.git && cd budget-app`
 
 2. Install Composer dependencies:
 
@@ -40,36 +45,40 @@ the following steps: `alias sail='bash vendor/bin/sail'`.**
 
 3. Create .env file:
 
-   `cp .env.example .env`
+    `cp .env.example .env`
 
 4. Start Laravel Sail:
 
-   `sail up`
+    `sail up`
 
 5. Generate an app key
 
-   `sail php artisan key:generate`
+    `sail php artisan key:generate`
 
 6. Install NPM dependencies.
 
-   `sail bun install`
+    `sail bun install`
 
 7. Build assets
 
-   `sail bun dev`
+    `sail bun dev`
 
 8. Run migrations and seed the database
 
-   `sail php artisan migrate:fresh --seed`
+    `sail php artisan migrate:fresh --seed`
 
 ## How to Contribute
 
 Contributions are welcome!
 
-Read our [Code of Conduct](https://github.com/LucaPipolo/budget-app/blob/main/CODE_OF_CONDUCT.md) before contributing.
-For security vulnerabilities, consult our [Security Policy](https://github.com/LucaPipolo/budget-app/blob/main/SECURITY.md).
+Read our [Code of Conduct](https://github.com/LucaPipolo/budget-app/blob/main/CODE_OF_CONDUCT.md)
+and [the Contributing guidelines](https://github.com/LucaPipolo/budget-app/blob/main/CONTRIBUTING.md) before
+contributing.
+
+For security vulnerabilities, consult
+our [Security Policy](https://github.com/LucaPipolo/budget-app/blob/main/SECURITY.md).
 
 ## License
 
-Licensed under [GNU AFFERO GENERAL PUBLIC LICENSE](https://github.com/LucaPipolo/budget-app/blob/main/LICENSE) 
+Licensed under [GNU AFFERO GENERAL PUBLIC LICENSE](https://github.com/LucaPipolo/budget-app/blob/main/LICENSE)
 — Copyright (C) 2025 somoscuatro.

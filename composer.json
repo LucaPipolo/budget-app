@@ -1,26 +1,44 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/laravel",
-    "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
-    "keywords": [
-        "laravel",
-        "framework"
+    "name": "@somoscuatro/budget-app",
+    "description": "The leading financial tracking application for families in the European market.",
+    "version": "0.1.0",
+    "authors": [
+        {
+            "name": "somoscuatro",
+            "homepage": "https://somoscuatro.com",
+            "email": "tech@somoscuatro.es"
+        }
     ],
-    "license": "MIT",
+    "license": "AGPL-3.0",
     "require": {
-        "php": "^8.2",
+        "php": "^8.4",
+        "filament/filament": "^3.2",
         "laravel/framework": "^12.0",
-        "laravel/tinker": "^2.10.1"
+        "laravel/jetstream": "^4.2|^5.0",
+        "laravel/sanctum": "^4.0",
+        "laravel/telescope": "^5.5",
+        "laravel/tinker": "^2.10.1",
+        "livewire/livewire": "^3.0",
+        "sentry/sentry-laravel": "^4.13",
+        "spatie/laravel-query-builder": "^6.3",
+        "stephenjude/filament-jetstream": "^0.0.16"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.15",
         "fakerphp/faker": "^1.23",
+        "larastan/larastan": "^3.1",
+        "laravel/dusk": "^8.3",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.41",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
-        "phpunit/phpunit": "^11.5.3"
+        "nunomaduro/phpinsights": "^2.12",
+        "pestphp/pest": "^3.7",
+        "pestphp/pest-plugin-laravel": "^3.1",
+        "pestphp/pest-plugin-livewire": "^3.0",
+        "pestphp/pest-plugin-type-coverage": "^3.4"
     },
     "autoload": {
         "psr-4": {
@@ -37,7 +55,8 @@
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "@php artisan package:discover --ansi",
+            "@php artisan filament:upgrade"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
@@ -53,7 +72,11 @@
         "dev": [
             "Composer\\Config::disableProcessTimeout",
             "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
-        ]
+        ],
+        "lint": "vendor/bin/pint --test",
+        "format": "vendor/bin/pint",
+        "sniff": "vendor/bin/phpstan analyse --memory-limit 1G",
+        "insights": "php artisan insights"
     },
     "extra": {
         "laravel": {
@@ -65,6 +88,7 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
         }
