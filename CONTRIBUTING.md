@@ -142,3 +142,17 @@ Example Environment Variables:
 
 Feel free to fork the collection and customize it for your needs. If you encounter any issues or have suggestions for
 improving the API documentation, please open an issue in this repository.
+
+## Deployment to Stage Environment
+
+The stage website is managed using [Laravel Forge](https://forge.laravel.com/) and [Envoyer](https://envoyer.io/),
+ensuring zero downtime
+deployment. Any changes pushed to
+the `dev` branch are automatically deployed to the stage website, allowing developers to test their updates in a
+real-world environment without manual intervention.
+
+The stage website is accessible at [stage-bda.somoscuatro.es](https://stage-bda.somoscuatro.es).
+
+If you are part of the somoscuatro development team, you should already have access to both Laravel Forge and Envoyer
+accounts. If not, request access
+from [Luca Pipolo](mailto:luca@somoscuatro.es) or [Joan López](mailto:joan@somoscuatro.es).
