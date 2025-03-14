@@ -1,5 +1,10 @@
 # Budget App
 
+[![Test Status](https://github.com/LucaPipolo/budget-app/actions/workflows/test-pest.yml/badge.svg)](https://github.com/LucaPipolo/budget-app/actions/workflows/test-pest.yml)
+[![Lint Status](https://github.com/LucaPipolo/budget-app/actions/workflows/lint.yml/badge.svg)](https://github.com/LucaPipolo/budget-app/actions/workflows/lint.yml)
+[![Sniff Status](https://github.com/LucaPipolo/budget-app/actions/workflows/sniff.yml/badge.svg)](https://github.com/LucaPipolo/budget-app/actions/workflows/sniff.yml)
+[![Analyze Status](https://github.com/LucaPipolo/budget-app/actions/workflows/analyze.yml/badge.svg)](https://github.com/LucaPipolo/budget-app/actions/workflows/analyze.yml)
+
 Welcome to the official repository of _Budget App_\*, the leading financial
 tracking application for families in the European market.
 
