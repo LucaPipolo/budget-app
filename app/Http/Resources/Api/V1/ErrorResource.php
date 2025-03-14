@@ -22,9 +22,10 @@ class ErrorResource extends JsonResource
     /**
      * Constructor to accept both resource data and HTTP status code.
      *
-     * @param  mixed  $resource
+     * @param  mixed  $resource  The JSON resource.
+     * @param  int  $statusCode  The HTTP status code.
      */
-    public function __construct($resource, int $statusCode)
+    public function __construct(mixed $resource, int $statusCode)
     {
         parent::__construct($resource);
         $this->statusCode = $statusCode;
@@ -33,13 +34,13 @@ class ErrorResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  Request  $request
+     * @param  Request  $request  The current request instance.
      *
      * @return array<string, mixed>
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         $formattedErrors = [];
 
@@ -64,9 +65,14 @@ class ErrorResource extends JsonResource
     /**
      * Customize the response with the correct HTTP status code.
      *
+     * @param  Request  $request  The current request instance.
+     * @param  JsonResponse  $response  The current JSON response.
+     *
+     * @return JsonResponse The JSON response with the HTTP status code.
+     *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter
      */
-    public function withResponse(Request $request, $response): JsonResponse
+    public function withResponse(Request $request, JsonResponse $response): JsonResponse
     {
         return $response->setStatusCode($this->statusCode);
     }
