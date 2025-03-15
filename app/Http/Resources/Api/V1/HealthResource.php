@@ -28,7 +28,7 @@ class HealthResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'status' => 'healty',
+            'status' => 'healthy',
         ];
     }
 }
