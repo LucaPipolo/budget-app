@@ -14,39 +14,41 @@ test('password can be updated', function (): void {
 
     Livewire::test(UpdatePasswordForm::class)
         ->set('state', [
-            'current_password' => 'password',
-            'password' => 'new-password',
-            'password_confirmation' => 'new-password',
+            'current_password' => '7Xfss!HoCiMTV',
+            'password' => 'N.rxRZ6atC9cL',
+            'password_confirmation' => 'N.rxRZ6atC9cL',
         ])
         ->call('updatePassword');
 
-    expect(Hash::check('new-password', $user->fresh()->password))->toBeTrue();
+    expect(Hash::check('N.rxRZ6atC9cL', $user->fresh()->password))->toBeTrue();
 });
+
 test('current password must be correct', function (): void {
     $this->actingAs($user = User::factory()->create());
 
     Livewire::test(UpdatePasswordForm::class)
         ->set('state', [
             'current_password' => 'wrong-password',
-            'password' => 'new-password',
-            'password_confirmation' => 'new-password',
+            'password' => 'N.rxRZ6atC9cL',
+            'password_confirmation' => 'N.rxRZ6atC9cL',
         ])
         ->call('updatePassword')
         ->assertHasErrors(['current_password']);
 
-    expect(Hash::check('password', $user->fresh()->password))->toBeTrue();
+    expect(Hash::check('7Xfss!HoCiMTV', $user->fresh()->password))->toBeTrue();
 });
+
 test('new passwords must match', function (): void {
     $this->actingAs($user = User::factory()->create());
 
     Livewire::test(UpdatePasswordForm::class)
         ->set('state', [
             'current_password' => 'password',
-            'password' => 'new-password',
-            'password_confirmation' => 'wrong-password',
+            'password' => 'N.rxRZ6atC9cL',
+            'password_confirmation' => 'khabpFY6M@swq',
         ])
         ->call('updatePassword')
         ->assertHasErrors(['password']);
 
-    expect(Hash::check('password', $user->fresh()->password))->toBeTrue();
+    expect(Hash::check('7Xfss!HoCiMTV', $user->fresh()->password))->toBeTrue();
 });

@@ -17,13 +17,14 @@ test('confirm password screen can be rendered', function (): void {
     $response->call('startConfirmingPassword', true);
     $response->assertSet('confirmingPassword', true);
 });
+
 test('password can be confirmed', function (): void {
     $user = User::factory()->withPersonalTeam()->create();
     $this->actingAs($user);
 
     Livewire::test(TwoFactorAuthenticationForm::class)
         ->call('startConfirmingPassword', true)
-        ->set('confirmablePassword', 'password')
+        ->set('confirmablePassword', '7Xfss!HoCiMTV')
         ->call('confirmPassword')
         ->assertHasNoErrors('confirmable_password')
         ->assertSet('confirmingPassword', false);
