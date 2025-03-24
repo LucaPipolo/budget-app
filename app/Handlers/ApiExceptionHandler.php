@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Handlers;
 
 use App\Exceptions\TokenAbilitiesException;
+use App\Exceptions\TooManyRequestsException;
 use App\Http\Resources\Api\V1\ErrorResource;
 use Illuminate\Database\QueryException;
 use Illuminate\Validation\ValidationException;
@@ -82,6 +83,17 @@ class ApiExceptionHandler
             return new ErrorResource([
                 'errors' => $formattedErrors,
             ], 422);
+        }
+
+        if ($exception instanceof TooManyRequestsException) {
+            return new ErrorResource([
+                'errors' => [
+                    [
+                        'title' => 'Too Many Requests',
+                        'detail' => 'You have exceeded the rate limit. Please try again later.',
+                    ],
+                ],
+            ], 429);
         }
 
         return new ErrorResource([
