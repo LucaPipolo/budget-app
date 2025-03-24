@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\DuskTestCase;
 use Tests\TestCase;
 
@@ -19,7 +20,7 @@ require_once __DIR__ . '/Helpers/AuthHelper.php';
 */
 
 pest()->extend(TestCase::class)
- // ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
+    ->use(RefreshDatabase::class)
     ->in('Api', 'Feature', 'Filament');
 
 pest()->extend(DuskTestCase::class)
