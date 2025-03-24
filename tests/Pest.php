@@ -5,6 +5,8 @@ declare(strict_types=1);
 use Tests\DuskTestCase;
 use Tests\TestCase;
 
+require_once __DIR__ . '/Helpers/AuthHelper.php';
+
 /*
 |--------------------------------------------------------------------------
 | Test Case
