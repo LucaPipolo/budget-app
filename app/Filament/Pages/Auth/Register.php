@@ -20,7 +20,7 @@ class Register extends BaseRegister
             ->revealable(filament()->arePasswordsRevealable())
             ->required()
             ->rule(Password::min(13)->mixedCase()->numbers()->symbols()->uncompromised())
-            ->dehydrateStateUsing(fn ($state) => Hash::make($state))
+            ->dehydrateStateUsing(fn (string $state) => Hash::make($state))
             ->same('passwordConfirmation')
             ->validationAttribute(__('filament-panels::pages/auth/register.form.password.validation_attribute'));
     }
