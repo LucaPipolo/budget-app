@@ -105,12 +105,12 @@ return [
         // A PR was created to fix that. This line SHOULD be removed as soon as it get
         // merged: https://github.com/nunomaduro/phpinsights/pull/705
         ForbiddenSecurityIssues::class,
+        // Temporarily disable because currently is not possible to ignore this specific rule
+        // for cases with cyclomatic complexity cannot or should not be reduced.
+        CyclomaticComplexityIsHigh::class,
     ],
 
     'config' => [
-        CyclomaticComplexityIsHigh::class => [
-            'maxComplexity' => 12,
-        ],
         ForbiddenPrivateMethods::class => [
             'title' => 'The usage of private methods is not idiomatic in Laravel.',
         ],
