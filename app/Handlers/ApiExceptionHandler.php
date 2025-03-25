@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\Handlers;
 
+use App\Exceptions\InvalidCredentialsException;
+use App\Exceptions\InvalidRefreshTokenException;
 use App\Exceptions\TokenAbilitiesException;
+use App\Exceptions\TooManyRequestsException;
 use App\Http\Resources\Api\V1\ErrorResource;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\QueryException;
 use Illuminate\Validation\ValidationException;
 use Spatie\QueryBuilder\Exceptions\InvalidFilterQuery;
@@ -31,6 +35,39 @@ class ApiExceptionHandler
                     ],
                 ],
             ], 400);
+        }
+
+        if ($exception instanceof AuthenticationException) {
+            return new ErrorResource([
+                'errors' => [
+                    [
+                        'title' => 'Not Authenticated',
+                        'detail' => 'You are not authenticated.',
+                    ],
+                ],
+            ], 401);
+        }
+
+        if ($exception instanceof InvalidCredentialsException) {
+            return new ErrorResource([
+                'errors' => [
+                    [
+                        'title' => 'Invalid Credentials',
+                        'detail' => 'The credentials used to log in are not valid.',
+                    ],
+                ],
+            ], 401);
+        }
+
+        if ($exception instanceof InvalidRefreshTokenException) {
+            return new ErrorResource([
+                'errors' => [
+                    [
+                        'title' => 'Invalid Refresh Token',
+                        'detail' => 'The refresh token is invalid or expired.',
+                    ],
+                ],
+            ], 401);
         }
 
         if ($exception instanceof TokenAbilitiesException) {
@@ -82,6 +119,17 @@ class ApiExceptionHandler
             return new ErrorResource([
                 'errors' => $formattedErrors,
             ], 422);
+        }
+
+        if ($exception instanceof TooManyRequestsException) {
+            return new ErrorResource([
+                'errors' => [
+                    [
+                        'title' => 'Too Many Requests',
+                        'detail' => 'You have exceeded the rate limit. Please try again later.',
+                    ],
+                ],
+            ], 429);
         }
 
         return new ErrorResource([
