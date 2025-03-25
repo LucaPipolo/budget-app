@@ -82,8 +82,8 @@ test('password can be reset with valid token', function (): void {
 
     Notification::assertSentTo($user, ResetPassword::class, function (object $notification) {
         $response = livewire(ResetPasswordPage::class)
-            ->set('password', 'my-new-password')
-            ->set('passwordConfirmation', 'my-new-password')
+            ->set('password', '7Xfss!HoCiMTV')
+            ->set('passwordConfirmation', '7Xfss!HoCiMTV')
             ->call('resetPassword');
 
         $response->assertHasNoErrors();

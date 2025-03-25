@@ -38,8 +38,8 @@ test('new users can register', function (): void {
     livewire(Register::class)
         ->set('data.name', 'Test User')
         ->set('data.email', 'test@example.com')
-        ->set('data.password', 'password')
-        ->set('data.passwordConfirmation', 'password')
+        ->set('data.password', '7Xfss!HoCiMTV')
+        ->set('data.passwordConfirmation', '7Xfss!HoCiMTV')
         ->call('register');
 
     $this->assertAuthenticated();
