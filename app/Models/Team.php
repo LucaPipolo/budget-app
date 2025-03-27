@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Database\Factories\TeamFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
@@ -13,11 +14,13 @@ use Laravel\Jetstream\Events\TeamUpdated;
 use Laravel\Jetstream\Team as JetstreamTeam;
 
 /**
+ * @property string $id
+ *
  * @method whenLoaded(string $string, \Closure $param)
  */
 class Team extends JetstreamTeam
 {
-    /** @use HasFactory<\Database\Factories\TeamFactory> */
+    /** @use HasFactory<TeamFactory> */
     use HasFactory;
 
     use HasUuids;
@@ -51,7 +54,7 @@ class Team extends JetstreamTeam
     {
         parent::boot();
 
-        static::creating(function ($team): void {
+        static::creating(function (Team $team): void {
             $team->id = (string) Str::uuid7();
         });
     }
