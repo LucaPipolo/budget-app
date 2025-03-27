@@ -21,6 +21,7 @@ use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
+ * @property string $id
  * @property-read string $profile_photo_url
  */
 class User extends Authenticatable implements FilamentUser, HasTenants, MustVerifyEmail
@@ -96,8 +97,8 @@ class User extends Authenticatable implements FilamentUser, HasTenants, MustVeri
     {
         parent::boot();
 
-        static::creating(function ($team): void {
-            $team->id = (string) Str::uuid7();
+        static::creating(function (User $user): void {
+            $user->id = (string) Str::uuid7();
         });
     }
 

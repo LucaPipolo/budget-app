@@ -13,6 +13,8 @@ use Laravel\Jetstream\Events\TeamUpdated;
 use Laravel\Jetstream\Team as JetstreamTeam;
 
 /**
+ * @property string $id
+ *
  * @method whenLoaded(string $string, \Closure $param)
  */
 class Team extends JetstreamTeam
@@ -51,7 +53,7 @@ class Team extends JetstreamTeam
     {
         parent::boot();
 
-        static::creating(function ($team): void {
+        static::creating(function (Team $team): void {
             $team->id = (string) Str::uuid7();
         });
     }
