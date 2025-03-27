@@ -1,7 +1,7 @@
 {
     "name": "@somoscuatro/budget-app",
     "description": "The leading financial tracking application for families in the European market.",
-    "version": "0.1.1",
+    "version": "0.2.0",
     "author": {
         "name": "somoscuatro",
         "email": "tech@somoscuatro.es",
