@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Helpers;
 
-function assertEndpointRequiresAuthentication(string $routeName, string $method = 'postJson'): void
+function assertEndpointRequiresAuthentication(string $routeName, string $method = 'postJson', array $routeParameters = []): void
 {
-    test('requires authentication', function () use ($routeName, $method): void {
+    test('requires authentication', function () use ($routeName, $method, $routeParameters): void {
         auth()->logout();
 
-        $response = $this->{$method}(route($routeName)); // Fixed route() call
+        $response = $this->{$method}(route($routeName, $routeParameters));
 
         $response
             ->assertStatus(401)
