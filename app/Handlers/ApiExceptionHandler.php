@@ -9,10 +9,12 @@ use App\Exceptions\InvalidRefreshTokenException;
 use App\Exceptions\TokenAbilitiesException;
 use App\Exceptions\TooManyRequestsException;
 use App\Http\Resources\Api\V1\ErrorResource;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\QueryException;
 use Illuminate\Validation\ValidationException;
 use Spatie\QueryBuilder\Exceptions\InvalidFilterQuery;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
@@ -81,7 +83,11 @@ class ApiExceptionHandler
             ], $exception->getCode());
         }
 
-        if ($exception instanceof NotFoundHttpException) {
+        if (
+            $exception instanceof NotFoundHttpException ||
+            $exception instanceof AuthorizationException ||
+            $exception instanceof AccessDeniedHttpException
+        ) {
             return new ErrorResource([
                 'errors' => [
                     [
