@@ -16,8 +16,6 @@ class UserResource extends JsonResource
      * @param  Request  $request  The current request instance.
      *
      * @return array The array representation of the model.
-     *
-     * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter
      */
     public function toArray(Request $request): array
     {
@@ -36,9 +34,12 @@ class UserResource extends JsonResource
                 'createdAt' => $user->created_at,
                 'updatedAt' => $user->updated_at,
             ],
-            'links' => [
-                'self' => route('api.v1.auth.me'),
-            ],
+            'links' => $this->when(
+                $request->routeIs('api.v1.auth.me'),
+                [
+                    'self' => route('api.v1.auth.me'),
+                ]
+            ),
         ];
     }
 }

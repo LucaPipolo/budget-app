@@ -12,6 +12,9 @@ use Laravel\Jetstream\Events\TeamDeleted;
 use Laravel\Jetstream\Events\TeamUpdated;
 use Laravel\Jetstream\Team as JetstreamTeam;
 
+/**
+ * @method whenLoaded(string $string, \Closure $param)
+ */
 class Team extends JetstreamTeam
 {
     /** @use HasFactory<\Database\Factories\TeamFactory> */
@@ -26,6 +29,7 @@ class Team extends JetstreamTeam
      */
     protected $fillable = [
         'name',
+        'user_id',
         'personal_team',
     ];
 
