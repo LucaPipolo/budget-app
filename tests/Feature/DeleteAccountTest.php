@@ -17,7 +17,7 @@ test('user accounts can be deleted', function (): void {
     $this->actingAs($user = User::factory()->create());
 
     $component = Livewire::test(DeleteUserForm::class)
-        ->set('password', 'password')
+        ->set('password', '7Xfss!HoCiMTV')
         ->call('deleteUser');
 
     expect($user->fresh())->toBeNull();

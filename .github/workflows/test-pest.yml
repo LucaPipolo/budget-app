@@ -117,7 +117,7 @@ jobs:
               run: vendor/bin/pest --type-coverage
 
             - name: Run Pest with coverage
-              run: XDEBUG_MODE=coverage vendor/bin/pest --coverage-clover clover.xml
+              run: XDEBUG_MODE=coverage vendor/bin/pest --parallel --coverage-clover clover.xml
               env:
                   DB_PORT: ${{ job.services.postgres.ports[5432] }}
                   REDIS_HOST: localhost
