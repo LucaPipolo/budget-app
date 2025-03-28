@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\AuthApiController;
 use App\Http\Controllers\Api\V1\HealthApiController;
 use App\Http\Controllers\Api\V1\Teams\TeamsApiController;
 use App\Http\Controllers\Api\V1\Teams\TeamUsersApiController;
+use App\Http\Controllers\Api\V1\Uploads\UploadApiController;
 
 Route::prefix('v1')->group(function (): void {
     Route::get('/health', [HealthApiController::class, 'check'])->name('api.v1.health');
@@ -25,6 +26,9 @@ Route::prefix('v1')->group(function (): void {
         Route::post('/auth/refresh-token', [AuthApiController::class, 'refreshToken'])
             ->middleware('throttle:api_login')
             ->name('api.v1.auth.refresh-token');
+
+        // Uploads
+        Route::post('/uploads', [UploadApiController::class, 'store'])->name('api.v1.uploads.store');
 
         // Teams
         Route::apiResource('teams', TeamsApiController::class)->names('api.v1.teams')->except(['update']);
