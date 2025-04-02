@@ -8,9 +8,11 @@ use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasTenants;
 use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
@@ -88,6 +90,23 @@ class User extends Authenticatable implements FilamentUser, HasTenants, MustVeri
     public function canAccessTenant(Model $tenant): bool
     {
         return $this->belongsToTeam($tenant);
+    }
+
+    /**
+     * Establish the user/merchants relationship.
+     *
+     * @return HasManyThrough The user/merchants relationship.
+     */
+    public function merchants(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Merchant::class,
+            Team::class,
+            'user_id',
+            'team_id',
+        )->whereHas('team', function (Builder $query): void {
+            $query->whereIn('id', $this->allTeams()->pluck('id'));
+        })->distinct();
     }
 
     /**
