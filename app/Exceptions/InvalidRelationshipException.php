@@ -12,6 +12,6 @@ class InvalidRelationshipException extends Exception
     public function __construct(?string $message = null, int $code = 422, ?Throwable $previous = null)
     {
         parent::__construct($message ?? 'Invalid Relationship', 422, $previous);
-        parent::__construct($message, $code);
+        $this->code = $code ?: 422;
     }
 }
