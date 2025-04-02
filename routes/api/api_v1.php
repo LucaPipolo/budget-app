@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Api\V1\AuthApiController;
 use App\Http\Controllers\Api\V1\HealthApiController;
+use App\Http\Controllers\Api\V1\Merchants\MerchantsApiController;
 use App\Http\Controllers\Api\V1\Teams\TeamsApiController;
 use App\Http\Controllers\Api\V1\Teams\TeamUsersApiController;
+use App\Http\Controllers\Api\V1\Uploads\UploadApiController;
 
 Route::prefix('v1')->group(function (): void {
     Route::get('/health', [HealthApiController::class, 'check'])->name('api.v1.health');
@@ -26,6 +28,9 @@ Route::prefix('v1')->group(function (): void {
             ->middleware('throttle:api_login')
             ->name('api.v1.auth.refresh-token');
 
+        // Uploads
+        Route::post('/uploads', [UploadApiController::class, 'store'])->name('api.v1.uploads.store');
+
         // Teams
         Route::apiResource('teams', TeamsApiController::class)->names('api.v1.teams')->except(['update']);
         Route::put('teams/{team}', [TeamsApiController::class, 'replace'])->name('api.v1.teams.replace');
@@ -34,5 +39,12 @@ Route::prefix('v1')->group(function (): void {
             ->name('api.v1.teams.relationships.users');
         Route::get('teams/{team}/users', [TeamUsersApiController::class, 'users'])
             ->name('api.v1.teams.users');
+
+        // Merchants
+        Route::apiResource('merchants', MerchantsApiController::class)->names('api.v1.merchants')->except(['update']);
+        Route::put('merchants/{merchant}', [MerchantsApiController::class, 'replace'])
+            ->name('api.v1.merchants.replace');
+        Route::patch('merchants/{merchant}', [MerchantsApiController::class, 'update'])
+            ->name('api.v1.merchants.update');
     });
 });
