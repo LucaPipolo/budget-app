@@ -6,6 +6,7 @@ namespace App\Providers;
 
 use App\Exceptions\TooManyRequestsException;
 use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -27,6 +28,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Disable Laravel mass assignment protection since Filament only saves valid data to models.
+        // @see https://filamentphp.com/docs/3.x/panels/getting-started#unguarding-all-models
+        Model::unguard();
+
         Password::defaults(function () {
             return Password::min(13)
                 ->mixedCase()
