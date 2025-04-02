@@ -6,6 +6,7 @@ namespace App\Handlers;
 
 use App\Exceptions\InvalidCredentialsException;
 use App\Exceptions\InvalidRefreshTokenException;
+use App\Exceptions\InvalidRelationshipException;
 use App\Exceptions\TokenAbilitiesException;
 use App\Exceptions\TooManyRequestsException;
 use App\Http\Resources\Api\V1\ErrorResource;
@@ -107,6 +108,17 @@ class ApiExceptionHandler
                     ],
                 ],
             ], 405);
+        }
+
+        if ($exception instanceof InvalidRelationshipException) {
+            return new ErrorResource([
+                'errors' => [
+                    [
+                        'title' => 'Invalid Relationship',
+                        'detail' => 'You are trying to create a relationship with a resource that does not exist.',
+                    ],
+                ],
+            ], $exception->getCode());
         }
 
         if ($exception instanceof ValidationException) {
