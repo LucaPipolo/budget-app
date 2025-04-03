@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-use App\Models\Merchant;
+use App\Models\Account;
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
 
 use function Tests\Helpers\assertEndpointRequiresAuthentication;
 
-assertEndpointRequiresAuthentication('api.v1.merchants.replace', 'putJson', ['merchant' => 1]);
+assertEndpointRequiresAuthentication('api.v1.accounts.update', 'patchJson', ['account' => 1]);
 
-test('user with "update" token can replace a merchant', function (): void {
+test('user with "update" token can update an account', function (): void {
     $user = User::factory()->withPersonalTeam()->create();
 
-    /** @var Merchant $merchant */
-    $merchant = Merchant::factory()->create([
+    /** @var Account $account */
+    $account = Account::factory()->create([
         'team_id' => $user->currentTeam->id,
     ]);
 
@@ -23,14 +23,13 @@ test('user with "update" token can replace a merchant', function (): void {
     $updatedData = [
         'data' => [
             'attributes' => [
-                'name' => 'Updated Merchant Name',
-                'teamId' => $user->currentTeam->id,
+                'balance' => 33,
             ],
         ],
     ];
 
     $this->actingAs($user)
-        ->putJson(route('api.v1.merchants.replace', $merchant->id), $updatedData)
+        ->patchJson(route('api.v1.accounts.update', $account->id), $updatedData)
         ->assertStatus(200)
         ->assertJsonStructure([
             'data' => [
@@ -38,8 +37,13 @@ test('user with "update" token can replace a merchant', function (): void {
                 'id',
                 'attributes' => [
                     'name',
-                    'balance',
+                    'type',
+                    'origin',
                     'logoUrl',
+                    'balance',
+                    'currency',
+                    'iban',
+                    'swift',
                     'teamId',
                     'createdAt',
                     'updatedAt',
@@ -47,53 +51,52 @@ test('user with "update" token can replace a merchant', function (): void {
                 'links' => ['self'],
             ],
         ])
-        ->assertJsonPath('data.id', $merchant->id)
-        ->assertJsonPath('data.attributes.name', 'Updated Merchant Name');
+        ->assertJsonPath('data.id', $account->id)
+        ->assertJsonPath('data.attributes.balance', 33);
 
-    $this->assertDatabaseHas('merchants', [
-        'id' => $merchant->id,
-        'name' => 'Updated Merchant Name',
+    $this->assertDatabaseHas('accounts', [
+        'id' => $account->id,
+        'balance' => 33,
     ]);
 });
 
 test('denies replace to user without "update" token', function (): void {
     $user = User::factory()->withPersonalTeam()->create();
 
-    /** @var Merchant $merchant */
-    $merchant = Merchant::factory()->create([
+    /** @var Account $account */
+    $account = Account::factory()->create([
         'team_id' => $user->currentTeam->id,
     ]);
-    $originalName = $merchant->name;
+    $originalBalance = $account->balance;
 
     Sanctum::actingAs($user, ['read', 'create', 'delete']);
 
     $updatedData = [
         'data' => [
             'attributes' => [
-                'name' => 'Updated Merchant Name',
-                'teamId' => $user->currentTeam->id,
+                'balance' => 33,
             ],
         ],
     ];
 
     $this->actingAs($user)
-        ->putJson(route('api.v1.merchants.replace', $merchant->id), $updatedData)
+        ->patchJson(route('api.v1.accounts.update', $account->id), $updatedData)
         ->assertStatus(403);
 
-    $this->assertDatabaseHas('merchants', [
-        'id' => $merchant->id,
-        'name' => $originalName,
+    $this->assertDatabaseHas('accounts', [
+        'id' => $account->id,
+        'balance' => $originalBalance,
     ]);
 });
 
-test('user cannot replace a merchant that does not belong to them', function (): void {
+test('user cannot update an account that does not belong to them', function (): void {
     $user = User::factory()->withPersonalTeam()->create();
 
     $anotherUser = User::factory()->withPersonalTeam()->create();
     $anotherTeam = $anotherUser->currentTeam;
 
-    /** @var Merchant $merchant */
-    $anotherMerchant = Merchant::factory()->create([
+    /** @var Account $account */
+    $anotherAccount = Account::factory()->create([
         'team_id' => $anotherTeam,
     ]);
 
@@ -102,30 +105,30 @@ test('user cannot replace a merchant that does not belong to them', function ():
     $updatedData = [
         'data' => [
             'attributes' => [
-                'name' => 'Hacked Merchant Name',
+                'name' => 'Hacked Account Name',
                 'teamId' => $anotherTeam->id,
             ],
         ],
     ];
 
     $this->actingAs($user)
-        ->putJson(route('api.v1.merchants.replace', $anotherMerchant->id), $updatedData)
+        ->patchJson(route('api.v1.accounts.update', $anotherAccount->id), $updatedData)
         ->assertStatus(404);
 
-    $this->assertDatabaseMissing('merchants', [
-        'id' => $anotherMerchant->id,
-        'name' => 'Hacked Merchant Name',
+    $this->assertDatabaseMissing('accounts', [
+        'id' => $anotherAccount->id,
+        'name' => 'Hacked Account Name',
     ]);
 });
 
-test('user cannot assign a merchant to a team that does not belong to them', function (): void {
+test('user cannot assign an account to a team that does not belong to them', function (): void {
     $user = User::factory()->withPersonalTeam()->create();
 
     $anotherUser = User::factory()->withPersonalTeam()->create();
     $anotherTeam = $anotherUser->currentTeam;
 
-    /** @var Merchant $merchant */
-    $merchant = Merchant::factory()->create([
+    /** @var Account $account */
+    $account = Account::factory()->create([
         'team_id' => $user->currentTeam->id,
     ]);
 
@@ -134,14 +137,14 @@ test('user cannot assign a merchant to a team that does not belong to them', fun
     $updatedData = [
         'data' => [
             'attributes' => [
-                'name' => 'Updated Merchant Name',
+                'name' => 'Updated Account Name',
                 'teamId' => $anotherTeam->id,
             ],
         ],
     ];
 
     $this->actingAs($user)
-        ->putJson(route('api.v1.merchants.replace', $merchant->id), $updatedData)
+        ->patchJson(route('api.v1.accounts.update', $account->id), $updatedData)
         ->assertStatus(422)
         ->assertJson([
             'errors' => [
@@ -153,8 +156,8 @@ test('user cannot assign a merchant to a team that does not belong to them', fun
             ],
         ]);
 
-    $this->assertDatabaseMissing('merchants', [
-        'id' => $merchant->id,
-        'name' => 'Updated Merchant Name',
+    $this->assertDatabaseMissing('accounts', [
+        'id' => $account->id,
+        'name' => 'Updated Account Name',
     ]);
 });

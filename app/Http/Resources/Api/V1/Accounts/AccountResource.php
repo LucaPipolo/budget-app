@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Resources\Api\V1\Merchants;
+namespace App\Http\Resources\Api\V1\Accounts;
 
-use App\Models\Merchant;
+use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
 
-class MerchantResource extends JsonResource
+class AccountResource extends JsonResource
 {
     /**
      * Convert the model instance to an array.
@@ -22,20 +22,25 @@ class MerchantResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        /** @var Merchant $this */
+        /** @var Account $this */
         return [ // @phpstan-ignore-line varTag.nativeType
-            'type' => 'merchant',
+            'type' => 'account',
             'id' => $this->id,
             'attributes' => [
                 'name' => $this->name,
-                'balance' => intval($this->balance),
+                'type' => $this->type,
+                'origin' => $this->origin,
                 'logoUrl' => asset(Storage::url($this->logo_path)),
+                'balance' => intval($this->balance),
+                'currency' => $this->currency,
+                'iban' => $this->iban,
+                'swift' => $this->swift,
                 'teamId' => $this->team_id,
                 'createdAt' => $this->created_at,
                 'updatedAt' => $this->updated_at,
             ],
             'links' => [
-                'self' => route('api.v1.merchants.show', ['merchant' => $this->id]),
+                'self' => route('api.v1.accounts.show', ['account' => $this->id]),
             ],
         ];
     }

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Api\V1\Accounts\AccountsApiController;
 use App\Http\Controllers\Api\V1\AuthApiController;
 use App\Http\Controllers\Api\V1\HealthApiController;
 use App\Http\Controllers\Api\V1\Merchants\MerchantsApiController;
@@ -39,6 +40,13 @@ Route::prefix('v1')->group(function (): void {
             ->name('api.v1.teams.relationships.users');
         Route::get('teams/{team}/users', [TeamUsersApiController::class, 'users'])
             ->name('api.v1.teams.users');
+
+        // Accounts
+        Route::apiResource('accounts', AccountsApiController::class)->names('api.v1.accounts')->except(['update']);
+        Route::put('accounts/{account}', [AccountsApiController::class, 'replace'])
+            ->name('api.v1.accounts.replace');
+        Route::patch('accounts/{account}', [AccountsApiController::class, 'update'])
+            ->name('api.v1.accounts.update');
 
         // Merchants
         Route::apiResource('merchants', MerchantsApiController::class)->names('api.v1.merchants')->except(['update']);
