@@ -26,11 +26,11 @@ class UpdateMerchantRequest extends BaseMerchantRequest
                 'string',
                 function (string $attribute, string $value, \Closure $fail): void {
                     if ($value !== '' && ! Storage::disk('public')->exists($value)) {
-                        $fail("Field {$attribute} refers to a non existing file.");
+                        $fail("The {$attribute} field refers to a non existing file.");
                     }
 
                     if ($value !== '' && ! str_starts_with($value, 'merchants/')) {
-                        $fail("The {$attribute} should start with 'merchants/'.");
+                        $fail("The {$attribute} field should start with 'merchants/'.");
                     }
                 },
             ],
