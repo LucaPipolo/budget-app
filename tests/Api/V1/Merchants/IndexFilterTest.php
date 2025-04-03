@@ -109,3 +109,39 @@ test('merchants can be filtered by balance using operators', function (): void {
         collect($response->json('data'))->pluck('id')->sort()->values()->toArray()
     );
 });
+
+test('merchants can be filtered by team id', function (): void {
+    $user1 = User::factory()->withPersonalTeam()->create();
+    $user2 = User::factory()->withPersonalTeam()->create();
+
+    $team1 = $user1->currentTeam;
+    $team2 = $user2->currentTeam;
+
+    $user1->teams()->attach($team2);
+    $user1->refresh();
+
+    $merchantsTeam1 = Merchant::factory(3)->create(['team_id' => $team1->id]);
+    $merchantsTeam2 = Merchant::factory(2)->create(['team_id' => $team2->id]);
+
+    Sanctum::actingAs($user1, ['read']);
+
+    $teams = [
+        $team1->id => ['visible' => $merchantsTeam1, 'hidden' => $merchantsTeam2],
+        $team2->id => ['visible' => $merchantsTeam2, 'hidden' => $merchantsTeam1],
+    ];
+
+    foreach ($teams as $teamId => $testData) {
+        $response = $this->actingAs($user1)
+            ->getJson(route('api.v1.merchants.index', ['filter[teamId]' => $teamId]))
+            ->assertStatus(200)
+            ->assertJsonCount(count($testData['visible']), 'data');
+
+        foreach ($testData['visible'] as $merchant) {
+            $response->assertJsonFragment(['id' => $merchant->id]);
+        }
+
+        foreach ($testData['hidden'] as $merchant) {
+            $response->assertJsonMissing(['id' => $merchant->id]);
+        }
+    }
+});
