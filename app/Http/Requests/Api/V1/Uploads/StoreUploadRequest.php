@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\V1\Uploads;
 
+use App\Enums\UploadEntities;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Validation\Rules\Enum;
 
 class StoreUploadRequest extends BaseUploadRequest
 {
@@ -16,7 +18,7 @@ class StoreUploadRequest extends BaseUploadRequest
     public function rules(): array
     {
         return [
-            'entity' => 'required|string|in:merchants',
+            'entity' => ['required', new Enum(UploadEntities::class)],
             'file' => 'required|file|max:5120|mimetypes:image/png,image/jpeg,image/jpg,image/svg',
         ];
     }
