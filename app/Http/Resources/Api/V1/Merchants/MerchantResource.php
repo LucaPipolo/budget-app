@@ -28,7 +28,7 @@ class MerchantResource extends JsonResource
             'id' => $this->id,
             'attributes' => [
                 'name' => $this->name,
-                'balance' => $this->balance,
+                'balance' => intval($this->balance),
                 'logoUrl' => asset(Storage::url($this->logo_path)),
                 'teamId' => $this->team_id,
                 'createdAt' => $this->created_at,
