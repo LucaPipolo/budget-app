@@ -17,7 +17,7 @@ class UpdateMerchantRequest extends BaseMerchantRequest
     {
         return [
             'data.attributes.name' => 'sometimes|string|min:3|max:255',
-            'data.attributes.balance' => 'sometimes|string|min:0',
+            'data.attributes.balance' => 'sometimes|integer|min:0',
             'data.attributes.teamId' => 'sometimes|uuid|exists:teams,id',
         ];
     }
