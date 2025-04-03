@@ -22,9 +22,12 @@ class MerchantFactory extends Factory
     {
         return [
             'name' => $this->faker->unique()->company(),
-            'balance' => $this->faker->numberBetween(-10000, 10000),
+            'balance' => $this->faker->numberBetween(0, 130000),
             'team_id' => Team::inRandomOrder()->first()->id,
-            'logo_path' => $this->faker->imageUrl(640, 480, 'business', true),
+            'logo_path' => $this->faker->imageUrl(640, 480, 'business'),
+
+            'created_at' => $this->faker->dateTimeBetween('-1 year'),
+            'updated_at' => $this->faker->dateTimeBetween('-1 week'),
         ];
     }
 }
