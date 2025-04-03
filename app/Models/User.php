@@ -93,6 +93,23 @@ class User extends Authenticatable implements FilamentUser, HasTenants, MustVeri
     }
 
     /**
+     * Establish the user/accounts relationship.
+     *
+     * @return HasManyThrough The user/accounts relationship.
+     */
+    public function accounts(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Account::class,
+            Team::class,
+            'user_id',
+            'team_id',
+        )->whereHas('team', function (Builder $query): void {
+            $query->whereIn('id', $this->allTeams()->pluck('id'));
+        })->distinct();
+    }
+
+    /**
      * Establish the user/merchants relationship.
      *
      * @return HasManyThrough The user/merchants relationship.
