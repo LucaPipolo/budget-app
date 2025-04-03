@@ -20,7 +20,7 @@ class StoreMerchantRequest extends BaseMerchantRequest
             'data.attributes.name' => 'required|string|min:3|max:255',
             'data.attributes.balance' => 'sometimes|integer|min:0',
             'data.attributes.teamId' => 'required|uuid|exists:teams,id',
-            'data.attributes.logoPath' => ['sometimes', 'nullable', 'string', new LogoPathRule()],
+            'data.attributes.logoPath' => ['sometimes', 'nullable', 'string', new LogoPathRule('merchants')],
         ];
     }
 }
