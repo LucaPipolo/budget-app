@@ -138,7 +138,7 @@ class MerchantsApiController extends ApiController
     public function update(UpdateMerchantRequest $request, string $merchant_id): MerchantResource|JsonResponse
     {
         $merchant = Merchant::findOrFail($merchant_id);
-        $merchant->team_id = $request->input('data.attributes.teamId');
+        $request->has('data.attributes.teamId') && $merchant->team_id = $request->input('data.attributes.teamId');
         $this->isAble('update', $merchant, 'update');
 
         $merchant->update($request->mappedAttributes());
