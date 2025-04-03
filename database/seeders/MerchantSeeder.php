@@ -12,7 +12,7 @@ use Str;
 
 class MerchantSeeder extends Seeder
 {
-    public static array $merchantNames = [
+    private array $merchantNames = [
         'Ametller Origen', 'Carrefour', 'Uber Eats', 'Vodafone', 'Primor',
         'Adeslas', 'Apple', 'El Corte Inglés', 'Freenow', 'TMB', 'H&M',
         'Zara', 'La Sirena', 'Bonpreu', 'Lidl', 'Netflix', 'New York Times',
@@ -22,12 +22,12 @@ class MerchantSeeder extends Seeder
 
     public function run(): void
     {
-        foreach (static::$merchantNames as $merchant) {
-            $sampleImagePath = database_path('seeders/sample-assets/merchants/' . Str::slug($merchant) . '.png');
+        foreach ($this->merchantNames as $merchantName) {
+            $sampleImagePath = database_path('seeders/sample-assets/merchants/' . Str::slug($merchantName) . '.png');
             $logoPath = Storage::disk('public')->putFile('merchants', new File($sampleImagePath));
 
             Merchant::factory()->create([
-                'name' => $merchant,
+                'name' => $merchantName,
                 'balance' => '0',
                 'logo_path' => $logoPath,
             ]);

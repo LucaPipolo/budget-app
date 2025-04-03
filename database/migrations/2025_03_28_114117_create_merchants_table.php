@@ -16,10 +16,10 @@ return new class extends Migration
         Schema::create('merchants', function (Blueprint $table): void {
             $table->uuid('id')->primary();
             $table->string('name');
-            $table->string('logo_path')->nullable();
+            $table->string('logo_path', 2048)->nullable();
             $table->bigInteger('balance')->default(0);
             $table->foreignUuid('team_id')->constrained()->cascadeOnDelete();
-            $table->timestamps();
+            $table->timestampsTz();
 
             $table->unique(['team_id', 'name']);
         });
