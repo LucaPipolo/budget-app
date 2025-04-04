@@ -10,7 +10,7 @@ test('validates required category name', function (): void {
 
     Sanctum::actingAs($user, ['create']);
 
-    $accountData = [
+    $categoryData = [
         'data' => [
             'attributes' => [
                 'name' => '',
@@ -22,7 +22,7 @@ test('validates required category name', function (): void {
     ];
 
     $this->actingAs($user)
-        ->postJson(route('api.v1.categories.store'), $accountData)
+        ->postJson(route('api.v1.categories.store'), $categoryData)
         ->assertStatus(422)
         ->assertJson([
             'errors' => [
@@ -40,7 +40,7 @@ test('validates required category type', function (): void {
 
     Sanctum::actingAs($user, ['create']);
 
-    $accountData = [
+    $categoryData = [
         'data' => [
             'attributes' => [
                 'name' => 'New Test Category',
@@ -52,7 +52,7 @@ test('validates required category type', function (): void {
     ];
 
     $this->actingAs($user)
-        ->postJson(route('api.v1.categories.store'), $accountData)
+        ->postJson(route('api.v1.categories.store'), $categoryData)
         ->assertStatus(422)
         ->assertJson([
             'errors' => [
@@ -70,7 +70,7 @@ test('validates required category team id', function (): void {
 
     Sanctum::actingAs($user, ['create']);
 
-    $accountData = [
+    $categoryData = [
         'data' => [
             'attributes' => [
                 'name' => 'New Test Category',
@@ -82,7 +82,7 @@ test('validates required category team id', function (): void {
     ];
 
     $this->actingAs($user)
-        ->postJson(route('api.v1.categories.store'), $accountData)
+        ->postJson(route('api.v1.categories.store'), $categoryData)
         ->assertStatus(422)
         ->assertJson([
             'errors' => [
@@ -100,7 +100,7 @@ test('validates category name is a string', function (): void {
 
     Sanctum::actingAs($user, ['create']);
 
-    $accountData = [
+    $categoryData = [
         'data' => [
             'attributes' => [
                 'name' => 123,
@@ -112,7 +112,7 @@ test('validates category name is a string', function (): void {
     ];
 
     $this->actingAs($user)
-        ->postJson(route('api.v1.categories.store'), $accountData)
+        ->postJson(route('api.v1.categories.store'), $categoryData)
         ->assertStatus(422)
         ->assertJson([
             'errors' => [
@@ -130,7 +130,7 @@ test('validates category name minimum length', function (): void {
 
     Sanctum::actingAs($user, ['create']);
 
-    $accountData = [
+    $categoryData = [
         'data' => [
             'attributes' => [
                 'name' => 'ab',
@@ -142,7 +142,7 @@ test('validates category name minimum length', function (): void {
     ];
 
     $this->actingAs($user)
-        ->postJson(route('api.v1.categories.store'), $accountData)
+        ->postJson(route('api.v1.categories.store'), $categoryData)
         ->assertStatus(422)
         ->assertJson([
             'errors' => [
@@ -160,7 +160,7 @@ test('validates category name maximum length', function (): void {
 
     Sanctum::actingAs($user, ['create']);
 
-    $accountData = [
+    $categoryData = [
         'data' => [
             'attributes' => [
                 'name' => str_repeat('a', 256),
@@ -172,7 +172,7 @@ test('validates category name maximum length', function (): void {
     ];
 
     $this->actingAs($user)
-        ->postJson(route('api.v1.categories.store'), $accountData)
+        ->postJson(route('api.v1.categories.store'), $categoryData)
         ->assertStatus(422)
         ->assertJson([
             'errors' => [
@@ -190,7 +190,7 @@ test('validates category balance is an integer', function (): void {
 
     Sanctum::actingAs($user, ['create']);
 
-    $accountData = [
+    $categoryData = [
         'data' => [
             'attributes' => [
                 'name' => 'New Test Category',
@@ -202,7 +202,7 @@ test('validates category balance is an integer', function (): void {
     ];
 
     $this->actingAs($user)
-        ->postJson(route('api.v1.categories.store'), $accountData)
+        ->postJson(route('api.v1.categories.store'), $categoryData)
         ->assertStatus(422)
         ->assertJson([
             'errors' => [
@@ -220,7 +220,7 @@ test('validates category balance minimum value', function (): void {
 
     Sanctum::actingAs($user, ['create']);
 
-    $accountData = [
+    $categoryData = [
         'data' => [
             'attributes' => [
                 'name' => 'New Test Category',
@@ -232,7 +232,7 @@ test('validates category balance minimum value', function (): void {
     ];
 
     $this->actingAs($user)
-        ->postJson(route('api.v1.categories.store'), $accountData)
+        ->postJson(route('api.v1.categories.store'), $categoryData)
         ->assertStatus(422)
         ->assertJson([
             'errors' => [
@@ -250,7 +250,7 @@ test('validates category team id format', function (): void {
 
     Sanctum::actingAs($user, ['create']);
 
-    $accountData = [
+    $categoryData = [
         'data' => [
             'attributes' => [
                 'name' => 'New Test Category',
@@ -262,7 +262,7 @@ test('validates category team id format', function (): void {
     ];
 
     $this->actingAs($user)
-        ->postJson(route('api.v1.categories.store'), $accountData)
+        ->postJson(route('api.v1.categories.store'), $categoryData)
         ->assertStatus(422)
         ->assertJson([
             'errors' => [
@@ -280,7 +280,7 @@ test('validates category team id exists', function (): void {
 
     Sanctum::actingAs($user, ['create']);
 
-    $accountData = [
+    $categoryData = [
         'data' => [
             'attributes' => [
                 'name' => 'New Test Category',
@@ -292,7 +292,7 @@ test('validates category team id exists', function (): void {
     ];
 
     $this->actingAs($user)
-        ->postJson(route('api.v1.categories.store'), $accountData)
+        ->postJson(route('api.v1.categories.store'), $categoryData)
         ->assertStatus(422)
         ->assertJson([
             'errors' => [
@@ -310,7 +310,7 @@ test('validates category type is between accepted', function (): void {
 
     Sanctum::actingAs($user, ['create']);
 
-    $accountData = [
+    $categoryData = [
         'data' => [
             'attributes' => [
                 'name' => 'New Test Category',
@@ -322,7 +322,7 @@ test('validates category type is between accepted', function (): void {
     ];
 
     $this->actingAs($user)
-        ->postJson(route('api.v1.categories.store'), $accountData)
+        ->postJson(route('api.v1.categories.store'), $categoryData)
         ->assertStatus(422)
         ->assertJson([
             'errors' => [
