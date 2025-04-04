@@ -22,6 +22,16 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
+        User::factory()->withPersonalTeam()->create([
+            'name' => 'Test User',
+            'email' => 'test2@example.com',
+        ]);
+
+        User::factory()->withPersonalTeam()->create([
+            'name' => 'Test User',
+            'email' => 'test3@example.com',
+        ]);
+
         $this->call([
             MerchantSeeder::class,
             AccountSeeder::class,

@@ -27,7 +27,7 @@ class MerchantFactory extends Factory
             'logo_path' => $this->faker->imageUrl(640, 480, 'business'),
 
             'created_at' => $this->faker->dateTimeBetween('-1 year'),
-            'updated_at' => $this->faker->dateTimeBetween('-1 week'),
+            'updated_at' => $this->faker->dateTimeBetween('-2 days'),
         ];
     }
 }

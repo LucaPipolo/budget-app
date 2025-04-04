@@ -23,7 +23,8 @@
         "livewire/livewire": "^3.0",
         "sentry/sentry-laravel": "^4.13",
         "spatie/laravel-query-builder": "^6.3",
-        "stephenjude/filament-jetstream": "^0.0.16"
+        "stephenjude/filament-jetstream": "^0.0.16",
+        "tpetry/laravel-postgresql-enhanced": "^2.4"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.15",

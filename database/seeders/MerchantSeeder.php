@@ -28,7 +28,6 @@ class MerchantSeeder extends Seeder
 
             Merchant::factory()->create([
                 'name' => $merchantName,
-                'balance' => '0',
                 'logo_path' => $logoPath,
             ]);
         }
