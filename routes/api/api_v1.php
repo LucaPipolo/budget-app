@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Api\V1\Accounts\AccountsApiController;
 use App\Http\Controllers\Api\V1\AuthApiController;
+use App\Http\Controllers\Api\V1\Categories\CategoriesApiController;
 use App\Http\Controllers\Api\V1\HealthApiController;
 use App\Http\Controllers\Api\V1\Merchants\MerchantsApiController;
 use App\Http\Controllers\Api\V1\Teams\TeamsApiController;
@@ -54,5 +55,14 @@ Route::prefix('v1')->group(function (): void {
             ->name('api.v1.merchants.replace');
         Route::patch('merchants/{merchant}', [MerchantsApiController::class, 'update'])
             ->name('api.v1.merchants.update');
+
+        // Categories
+        Route::apiResource('categories', CategoriesApiController::class)
+            ->names('api.v1.categories')
+            ->except(['update']);
+        Route::put('categories/{category}', [CategoriesApiController::class, 'replace'])
+            ->name('api.v1.categories.replace');
+        Route::patch('categories/{category}', [CategoriesApiController::class, 'update'])
+            ->name('api.v1.categories.update');
     });
 });
