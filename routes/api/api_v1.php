@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\V1\AuthApiController;
 use App\Http\Controllers\Api\V1\Categories\CategoriesApiController;
 use App\Http\Controllers\Api\V1\HealthApiController;
 use App\Http\Controllers\Api\V1\Merchants\MerchantsApiController;
+use App\Http\Controllers\Api\V1\Tags\TagsApiController;
 use App\Http\Controllers\Api\V1\Teams\TeamsApiController;
 use App\Http\Controllers\Api\V1\Teams\TeamUsersApiController;
 use App\Http\Controllers\Api\V1\Uploads\UploadApiController;
@@ -64,5 +65,12 @@ Route::prefix('v1')->group(function (): void {
             ->name('api.v1.categories.replace');
         Route::patch('categories/{category}', [CategoriesApiController::class, 'update'])
             ->name('api.v1.categories.update');
+
+        // Tags
+        Route::apiResource('tags', TagsApiController::class)->names('api.v1.tags')->except(['update']);
+        Route::put('tags/{tag}', [TagsApiController::class, 'replace'])
+            ->name('api.v1.tags.replace');
+        Route::patch('tags/{tag}', [TagsApiController::class, 'update'])
+            ->name('api.v1.tags.update');
     });
 });
