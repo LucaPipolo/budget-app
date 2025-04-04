@@ -33,8 +33,8 @@ class Account extends Model
     protected function currency(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => strtoupper($value),
-            set: fn (string $value) => strtoupper($value),
+            get: fn (string $value) => mb_strtoupper($value),
+            set: fn (string $value) => mb_strtoupper($value),
         );
     }
 }
