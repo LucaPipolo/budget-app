@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\V1\Teams\TeamAccountsApiController;
 use App\Http\Controllers\Api\V1\Teams\TeamCategoriesApiController;
 use App\Http\Controllers\Api\V1\Teams\TeamMerchantsApiController;
 use App\Http\Controllers\Api\V1\Teams\TeamsApiController;
+use App\Http\Controllers\Api\V1\Teams\TeamTagsApiController;
 use App\Http\Controllers\Api\V1\Teams\TeamUsersApiController;
 use App\Http\Controllers\Api\V1\Uploads\UploadApiController;
 
@@ -64,6 +65,11 @@ Route::prefix('v1')->group(function (): void {
             ->name('api.v1.teams.relationships.categories');
         Route::get('teams/{team}/categories', [TeamCategoriesApiController::class, 'categories'])
             ->name('api.v1.teams.categories');
+
+        Route::get('teams/{team}/relationships/tags', [TeamTagsApiController::class, 'tagsRelationships'])
+            ->name('api.v1.teams.relationships.tags');
+        Route::get('teams/{team}/tags', [TeamTagsApiController::class, 'tags'])
+            ->name('api.v1.teams.tags');
 
         // Accounts
         Route::apiResource('accounts', AccountsApiController::class)->names('api.v1.accounts')->except(['update']);

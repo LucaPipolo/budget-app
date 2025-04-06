@@ -7,6 +7,7 @@ namespace App\Http\Resources\Api\V1\Teams;
 use App\Models\Account;
 use App\Models\Category;
 use App\Models\Merchant;
+use App\Models\Tag;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
@@ -37,7 +38,8 @@ class TeamResource extends JsonResource
             ],
             'relationships' => $this->when(
                 $this->relationLoaded('users') || $this->relationLoaded('accounts') ||
-                $this->relationLoaded('merchants') || $this->relationLoaded('categories'),
+                $this->relationLoaded('merchants') || $this->relationLoaded('categories') ||
+                $this->relationLoaded('tags'),
                 function () {
                     return array_merge(
                         // @phpstan-ignore-next-line arguments.count
@@ -101,6 +103,24 @@ class TeamResource extends JsonResource
                                         'data' => $categories->map(fn (Category $category) => [
                                             'type' => 'category',
                                             'id' => (string) $category->id,
+                                        ]),
+                                    ],
+                                ];
+                            },
+                            []
+                        ),
+                        // @phpstan-ignore-next-line arguments.count
+                        $this->whenLoaded(
+                            'tags',
+                            function () {
+                                /** @var Collection<int, Tag> $tags */
+                                $tags = $this->tags;
+
+                                return [
+                                    'tags' => [
+                                        'data' => $tags->map(fn (Tag $tag) => [
+                                            'type' => 'tag',
+                                            'id' => (string) $tag->id,
                                         ]),
                                     ],
                                 ];

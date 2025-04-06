@@ -73,6 +73,14 @@ class Team extends JetstreamTeam
     }
 
     /**
+     * Get the tags associated with this team.
+     */
+    public function tags(): HasMany
+    {
+        return $this->hasMany(Tag::class);
+    }
+
+    /**
      * The "booting" method of the model.
      */
     protected static function boot(): void
