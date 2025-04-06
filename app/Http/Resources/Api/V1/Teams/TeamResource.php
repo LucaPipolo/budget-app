@@ -31,16 +31,25 @@ class TeamResource extends JsonResource
                 'createdAt' => $this->created_at,
                 'updatedAt' => $this->updated_at,
             ],
-            'relationships' => $this->whenLoaded(
-                'users',
-                fn () => [
-                    'users' => [
-                        'data' => $this->allUsers()->map(fn (User $user) => [
-                            'type' => 'user',
-                            'id' => (string) $user->id,
-                        ]),
-                    ],
-                ]
+            'relationships' => $this->when(
+                $this->relationLoaded('users'),
+                function () {
+                    return array_merge(
+                        // @phpstan-ignore-next-line arguments.count
+                        $this->whenLoaded(
+                            'users',
+                            fn () => [
+                                'users' => [
+                                    'data' => $this->allUsers()->map(fn (User $user) => [
+                                        'type' => 'user',
+                                        'id' => (string) $user->id,
+                                    ]),
+                                ],
+                            ],
+                            []
+                        ),
+                    );
+                }
             ),
             'links' => [
                 'self' => route('api.v1.teams.show', ['team' => $this->id]),
