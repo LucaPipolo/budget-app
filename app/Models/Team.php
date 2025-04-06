@@ -65,6 +65,14 @@ class Team extends JetstreamTeam
     }
 
     /**
+     * Get the categories associated with this team.
+     */
+    public function categories(): HasMany
+    {
+        return $this->hasMany(Category::class);
+    }
+
+    /**
      * The "booting" method of the model.
      */
     protected static function boot(): void

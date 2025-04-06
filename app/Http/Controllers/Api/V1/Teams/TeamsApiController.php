@@ -8,6 +8,7 @@ use App\Exceptions\TokenAbilitiesException;
 use App\Http\Controllers\Api\V1\ApiController;
 use App\Http\Requests\Api\V1\Teams\StoreTeamRequest;
 use App\Http\Resources\Api\V1\Accounts\AccountResource;
+use App\Http\Resources\Api\V1\Categories\CategoryResource;
 use App\Http\Resources\Api\V1\Merchants\MerchantResource;
 use App\Http\Resources\Api\V1\Teams\TeamResource;
 use App\Http\Resources\Api\V1\UserResource;
@@ -50,6 +51,7 @@ class TeamsApiController extends ApiController
             ],
             'accounts' => ['accounts', AccountResource::class],
             'merchants' => ['merchants', MerchantResource::class],
+            'categories' => ['categories', CategoryResource::class],
         ];
     }
 
@@ -71,7 +73,7 @@ class TeamsApiController extends ApiController
 
         /** @var Collection<int, Team> $teams */
         $teams = QueryBuilder::for(Team::class)
-            ->allowedIncludes(['users', 'accounts', 'merchants'])
+            ->allowedIncludes(['users', 'accounts', 'merchants', 'categories'])
             ->allowedFilters(['name'])
             ->allowedSorts([
                 'name',
@@ -125,7 +127,7 @@ class TeamsApiController extends ApiController
     {
         /** @var Team $team */
         $team = QueryBuilder::for(Team::class)
-            ->allowedIncludes(['users', 'accounts', 'merchants'])
+            ->allowedIncludes(['users', 'accounts', 'merchants', 'categories'])
             ->findOrFail($team_id);
 
         $this->isAble('view', $team, 'read');
