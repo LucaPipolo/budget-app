@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\V1\Categories\CategoriesApiController;
 use App\Http\Controllers\Api\V1\HealthApiController;
 use App\Http\Controllers\Api\V1\Merchants\MerchantsApiController;
 use App\Http\Controllers\Api\V1\Tags\TagsApiController;
+use App\Http\Controllers\Api\V1\Teams\TeamAccountsApiController;
 use App\Http\Controllers\Api\V1\Teams\TeamMerchantsApiController;
 use App\Http\Controllers\Api\V1\Teams\TeamsApiController;
 use App\Http\Controllers\Api\V1\Teams\TeamUsersApiController;
@@ -43,6 +44,11 @@ Route::prefix('v1')->group(function (): void {
             ->name('api.v1.teams.relationships.users');
         Route::get('teams/{team}/users', [TeamUsersApiController::class, 'users'])
             ->name('api.v1.teams.users');
+
+        Route::get('teams/{team}/relationships/accounts', [TeamAccountsApiController::class, 'accountsRelationships'])
+            ->name('api.v1.teams.relationships.accounts');
+        Route::get('teams/{team}/accounts', [TeamAccountsApiController::class, 'accounts'])
+            ->name('api.v1.teams.accounts');
 
         Route::get('teams/{team}/relationships/merchants', [
             TeamMerchantsApiController::class, 'merchantsRelationships',

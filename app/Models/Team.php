@@ -49,6 +49,14 @@ class Team extends JetstreamTeam
     ];
 
     /**
+     * Get the accounts associated with this team.
+     */
+    public function accounts(): HasMany
+    {
+        return $this->hasMany(Account::class);
+    }
+
+    /**
      * Get the merchants associated with this team.
      */
     public function merchants(): HasMany
