@@ -7,6 +7,7 @@ namespace App\Models;
 use Database\Factories\TeamFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 use Laravel\Jetstream\Events\TeamCreated;
 use Laravel\Jetstream\Events\TeamDeleted;
@@ -46,6 +47,14 @@ class Team extends JetstreamTeam
         'updated' => TeamUpdated::class,
         'deleted' => TeamDeleted::class,
     ];
+
+    /**
+     * Get the merchants associated with this team.
+     */
+    public function merchants(): HasMany
+    {
+        return $this->hasMany(Merchant::class);
+    }
 
     /**
      * The "booting" method of the model.

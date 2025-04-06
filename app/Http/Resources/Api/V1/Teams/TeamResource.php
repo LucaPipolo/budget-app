@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Api\V1\Teams;
 
+use App\Models\Merchant;
 use App\Models\Team;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -32,7 +34,7 @@ class TeamResource extends JsonResource
                 'updatedAt' => $this->updated_at,
             ],
             'relationships' => $this->when(
-                $this->relationLoaded('users'),
+                $this->relationLoaded('users') || $this->relationLoaded('merchants'),
                 function () {
                     return array_merge(
                         // @phpstan-ignore-next-line arguments.count
@@ -48,6 +50,24 @@ class TeamResource extends JsonResource
                             ],
                             []
                         ),
+                        // @phpstan-ignore-next-line arguments.count
+                        $this->whenLoaded(
+                            'merchants',
+                            function () {
+                                /** @var Collection<int, Merchant> $merchants */
+                                $merchants = $this->merchants;
+
+                                return [
+                                    'merchants' => [
+                                        'data' => $merchants->map(fn (Merchant $merchant) => [
+                                            'type' => 'merchant',
+                                            'id' => (string) $merchant->id,
+                                        ]),
+                                    ],
+                                ];
+                            },
+                            []
+                        )
                     );
                 }
             ),

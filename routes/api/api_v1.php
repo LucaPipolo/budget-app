@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\V1\Categories\CategoriesApiController;
 use App\Http\Controllers\Api\V1\HealthApiController;
 use App\Http\Controllers\Api\V1\Merchants\MerchantsApiController;
 use App\Http\Controllers\Api\V1\Tags\TagsApiController;
+use App\Http\Controllers\Api\V1\Teams\TeamMerchantsApiController;
 use App\Http\Controllers\Api\V1\Teams\TeamsApiController;
 use App\Http\Controllers\Api\V1\Teams\TeamUsersApiController;
 use App\Http\Controllers\Api\V1\Uploads\UploadApiController;
@@ -42,6 +43,13 @@ Route::prefix('v1')->group(function (): void {
             ->name('api.v1.teams.relationships.users');
         Route::get('teams/{team}/users', [TeamUsersApiController::class, 'users'])
             ->name('api.v1.teams.users');
+
+        Route::get('teams/{team}/relationships/merchants', [
+            TeamMerchantsApiController::class, 'merchantsRelationships',
+        ])
+            ->name('api.v1.teams.relationships.merchants');
+        Route::get('teams/{team}/merchants', [TeamMerchantsApiController::class, 'merchants'])
+            ->name('api.v1.teams.merchants');
 
         // Accounts
         Route::apiResource('accounts', AccountsApiController::class)->names('api.v1.accounts')->except(['update']);
