@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Api\V1\Categories;
 
-use App\Models\Account;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -21,7 +21,7 @@ class CategoryResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        /** @var Account $this */
+        /** @var Category $this */
         return [ // @phpstan-ignore-line varTag.nativeType
             'type' => 'category',
             'id' => $this->id,
