@@ -7,10 +7,15 @@ namespace App\Http\Controllers\Api\V1\Teams;
 use App\Exceptions\TokenAbilitiesException;
 use App\Http\Controllers\Api\V1\ApiController;
 use App\Http\Requests\Api\V1\Teams\StoreTeamRequest;
+use App\Http\Resources\Api\V1\Accounts\AccountResource;
+use App\Http\Resources\Api\V1\Categories\CategoryResource;
+use App\Http\Resources\Api\V1\Merchants\MerchantResource;
+use App\Http\Resources\Api\V1\Tags\TagResource;
 use App\Http\Resources\Api\V1\Teams\TeamResource;
 use App\Http\Resources\Api\V1\UserResource;
 use App\Models\Team;
 use App\Policies\TeamPolicy;
+use App\Traits\HasIncludedResources;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
@@ -21,10 +26,36 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class TeamsApiController extends ApiController
 {
+    use HasIncludedResources;
+
     /**
      * The policy class that handles authorization for the resource.
      */
     protected string $policyClass = TeamPolicy::class;
+
+    /**
+     * Included resources.
+     */
+    protected array $includedResources = [];
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->includedResources = [
+            'users' => [
+                function (Team $team) {
+                    return $team->allUsers()->merge([$team->owner])->unique('id');
+                },
+                UserResource::class,
+            ],
+            'accounts' => ['accounts', AccountResource::class],
+            'merchants' => ['merchants', MerchantResource::class],
+            'categories' => ['categories', CategoryResource::class],
+            'tags' => ['tags', TagResource::class],
+        ];
+    }
 
     /**
      * List teams.
@@ -44,7 +75,7 @@ class TeamsApiController extends ApiController
 
         /** @var Collection<int, Team> $teams */
         $teams = QueryBuilder::for(Team::class)
-            ->allowedIncludes(['users'])
+            ->allowedIncludes(['users', 'accounts', 'merchants', 'categories', 'tags'])
             ->allowedFilters(['name'])
             ->allowedSorts([
                 'name',
@@ -56,15 +87,7 @@ class TeamsApiController extends ApiController
             })
             ->get();
 
-        $included = collect();
-        $includeUsers = in_array('users', explode(',', request()->include ?? ''));
-        if ($includeUsers) {
-            $included = UserResource::collection(
-                $teams->flatMap(function (Team $team) {
-                    return $team->allUsers()->merge([$team->owner])->unique('id');
-                })
-            );
-        }
+        $included = $this->prepareIncludedResources($teams, $this->includedResources);
 
         return TeamResource::collection($teams)
             ->additional($included->isNotEmpty() ? ['included' => $included] : []);
@@ -106,18 +129,12 @@ class TeamsApiController extends ApiController
     {
         /** @var Team $team */
         $team = QueryBuilder::for(Team::class)
-            ->allowedIncludes(['users'])
+            ->allowedIncludes(['users', 'accounts', 'merchants', 'categories', 'tags'])
             ->findOrFail($team_id);
 
         $this->isAble('view', $team, 'read');
 
-        $included = collect();
-        $includeUsers = in_array('users', explode(',', request()->include ?? ''));
-        if ($includeUsers) {
-            $included = UserResource::collection(
-                $team->allUsers()->unique('id')
-            );
-        }
+        $included = $this->prepareIncludedResources($team, $this->includedResources);
 
         return new TeamResource($team)
             ->additional($included->isNotEmpty() ? ['included' => $included] : []);

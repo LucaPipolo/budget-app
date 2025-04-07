@@ -5,24 +5,24 @@ declare(strict_types=1);
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
 
-test('validates required category name', function (): void {
+test('validates required tag name', function (): void {
     $user = User::factory()->withPersonalTeam()->create();
 
     Sanctum::actingAs($user, ['create']);
 
-    $categoryData = [
+    $tagData = [
         'data' => [
             'attributes' => [
                 'name' => '',
-                'type' => 'income',
                 'balance' => 1333,
+                'color' => '#f3f4f6',
                 'teamId' => $user->currentTeam->id,
             ],
         ],
     ];
 
     $this->actingAs($user)
-        ->postJson(route('api.v1.categories.store'), $categoryData)
+        ->postJson(route('api.v1.tags.store'), $tagData)
         ->assertStatus(422)
         ->assertJson([
             'errors' => [
@@ -35,54 +35,24 @@ test('validates required category name', function (): void {
         ]);
 });
 
-test('validates required category type', function (): void {
+test('validates required tag team id', function (): void {
     $user = User::factory()->withPersonalTeam()->create();
 
     Sanctum::actingAs($user, ['create']);
 
-    $categoryData = [
+    $tagData = [
         'data' => [
             'attributes' => [
-                'name' => 'New Test Category',
-                'type' => '',
+                'name' => 'New Test Tag',
                 'balance' => 1333,
-                'teamId' => $user->currentTeam->id,
-            ],
-        ],
-    ];
-
-    $this->actingAs($user)
-        ->postJson(route('api.v1.categories.store'), $categoryData)
-        ->assertStatus(422)
-        ->assertJson([
-            'errors' => [
-                [
-                    'status' => '422',
-                    'title' => 'Validation Error.',
-                    'detail' => 'The data.attributes.type field is required.',
-                ],
-            ],
-        ]);
-});
-
-test('validates required category team id', function (): void {
-    $user = User::factory()->withPersonalTeam()->create();
-
-    Sanctum::actingAs($user, ['create']);
-
-    $categoryData = [
-        'data' => [
-            'attributes' => [
-                'name' => 'New Test Category',
-                'type' => 'income',
-                'balance' => 1333,
+                'color' => '#f3f4f6',
                 'teamId' => '',
             ],
         ],
     ];
 
     $this->actingAs($user)
-        ->postJson(route('api.v1.categories.store'), $categoryData)
+        ->postJson(route('api.v1.tags.store'), $tagData)
         ->assertStatus(422)
         ->assertJson([
             'errors' => [
@@ -95,24 +65,24 @@ test('validates required category team id', function (): void {
         ]);
 });
 
-test('validates category name is a string', function (): void {
+test('validates tag name is a string', function (): void {
     $user = User::factory()->withPersonalTeam()->create();
 
     Sanctum::actingAs($user, ['create']);
 
-    $categoryData = [
+    $tagData = [
         'data' => [
             'attributes' => [
                 'name' => 123,
-                'type' => 'income',
                 'balance' => 1333,
+                'color' => '#f3f4f6',
                 'teamId' => $user->currentTeam->id,
             ],
         ],
     ];
 
     $this->actingAs($user)
-        ->postJson(route('api.v1.categories.store'), $categoryData)
+        ->postJson(route('api.v1.tags.store'), $tagData)
         ->assertStatus(422)
         ->assertJson([
             'errors' => [
@@ -125,24 +95,24 @@ test('validates category name is a string', function (): void {
         ]);
 });
 
-test('validates category name minimum length', function (): void {
+test('validates tag name minimum length', function (): void {
     $user = User::factory()->withPersonalTeam()->create();
 
     Sanctum::actingAs($user, ['create']);
 
-    $categoryData = [
+    $tagData = [
         'data' => [
             'attributes' => [
                 'name' => 'ab',
-                'type' => 'income',
                 'balance' => 1333,
+                'color' => '#f3f4f6',
                 'teamId' => $user->currentTeam->id,
             ],
         ],
     ];
 
     $this->actingAs($user)
-        ->postJson(route('api.v1.categories.store'), $categoryData)
+        ->postJson(route('api.v1.tags.store'), $tagData)
         ->assertStatus(422)
         ->assertJson([
             'errors' => [
@@ -155,24 +125,24 @@ test('validates category name minimum length', function (): void {
         ]);
 });
 
-test('validates category name maximum length', function (): void {
+test('validates tag name maximum length', function (): void {
     $user = User::factory()->withPersonalTeam()->create();
 
     Sanctum::actingAs($user, ['create']);
 
-    $categoryData = [
+    $tagData = [
         'data' => [
             'attributes' => [
                 'name' => str_repeat('a', 256),
-                'type' => 'income',
                 'balance' => 1333,
+                'color' => '#f3f4f6',
                 'teamId' => $user->currentTeam->id,
             ],
         ],
     ];
 
     $this->actingAs($user)
-        ->postJson(route('api.v1.categories.store'), $categoryData)
+        ->postJson(route('api.v1.tags.store'), $tagData)
         ->assertStatus(422)
         ->assertJson([
             'errors' => [
@@ -185,24 +155,24 @@ test('validates category name maximum length', function (): void {
         ]);
 });
 
-test('validates category balance is an integer', function (): void {
+test('validates tag balance is an integer', function (): void {
     $user = User::factory()->withPersonalTeam()->create();
 
     Sanctum::actingAs($user, ['create']);
 
-    $categoryData = [
+    $tagData = [
         'data' => [
             'attributes' => [
-                'name' => 'New Test Category',
-                'type' => 'income',
+                'name' => 'New Test Tag',
                 'balance' => 1333.5,
+                'color' => '#f3f4f6',
                 'teamId' => $user->currentTeam->id,
             ],
         ],
     ];
 
     $this->actingAs($user)
-        ->postJson(route('api.v1.categories.store'), $categoryData)
+        ->postJson(route('api.v1.tags.store'), $tagData)
         ->assertStatus(422)
         ->assertJson([
             'errors' => [
@@ -215,24 +185,24 @@ test('validates category balance is an integer', function (): void {
         ]);
 });
 
-test('validates category balance minimum value', function (): void {
+test('validates tag balance minimum value', function (): void {
     $user = User::factory()->withPersonalTeam()->create();
 
     Sanctum::actingAs($user, ['create']);
 
-    $categoryData = [
+    $tagData = [
         'data' => [
             'attributes' => [
-                'name' => 'New Test Category',
-                'type' => 'income',
+                'name' => 'New Test Tag',
                 'balance' => -1,
+                'color' => '#f3f4f6',
                 'teamId' => $user->currentTeam->id,
             ],
         ],
     ];
 
     $this->actingAs($user)
-        ->postJson(route('api.v1.categories.store'), $categoryData)
+        ->postJson(route('api.v1.tags.store'), $tagData)
         ->assertStatus(422)
         ->assertJson([
             'errors' => [
@@ -245,24 +215,24 @@ test('validates category balance minimum value', function (): void {
         ]);
 });
 
-test('validates category team id format', function (): void {
+test('validates tag team id format', function (): void {
     $user = User::factory()->withPersonalTeam()->create();
 
     Sanctum::actingAs($user, ['create']);
 
-    $categoryData = [
+    $tagData = [
         'data' => [
             'attributes' => [
-                'name' => 'New Test Category',
-                'type' => 'income',
+                'name' => 'New Test Tag',
                 'balance' => 1333,
+                'color' => '#f3f4f6',
                 'teamId' => 'invalid-uuid',
             ],
         ],
     ];
 
     $this->actingAs($user)
-        ->postJson(route('api.v1.categories.store'), $categoryData)
+        ->postJson(route('api.v1.tags.store'), $tagData)
         ->assertStatus(422)
         ->assertJson([
             'errors' => [
@@ -275,24 +245,24 @@ test('validates category team id format', function (): void {
         ]);
 });
 
-test('validates category team id exists', function (): void {
+test('validates tag team id exists', function (): void {
     $user = User::factory()->withPersonalTeam()->create();
 
     Sanctum::actingAs($user, ['create']);
 
-    $categoryData = [
+    $tagData = [
         'data' => [
             'attributes' => [
-                'name' => 'New Test Category',
-                'type' => 'income',
+                'name' => 'New Test Tag',
                 'balance' => 1333,
+                'color' => '#f3f4f6',
                 'teamId' => '00000000-0000-0000-0000-000000000000',
             ],
         ],
     ];
 
     $this->actingAs($user)
-        ->postJson(route('api.v1.categories.store'), $categoryData)
+        ->postJson(route('api.v1.tags.store'), $tagData)
         ->assertStatus(422)
         ->assertJson([
             'errors' => [
@@ -305,31 +275,31 @@ test('validates category team id exists', function (): void {
         ]);
 });
 
-test('validates category type is between accepted', function (): void {
+test('validates tag color format', function (): void {
     $user = User::factory()->withPersonalTeam()->create();
 
     Sanctum::actingAs($user, ['create']);
 
-    $categoryData = [
+    $tagData = [
         'data' => [
             'attributes' => [
-                'name' => 'New Test Category',
-                'type' => 'invalid-type',
+                'name' => 'New Test Tag',
                 'balance' => 1333,
+                'color' => 'invalid-color',
                 'teamId' => $user->currentTeam->id,
             ],
         ],
     ];
 
     $this->actingAs($user)
-        ->postJson(route('api.v1.categories.store'), $categoryData)
+        ->postJson(route('api.v1.tags.store'), $tagData)
         ->assertStatus(422)
         ->assertJson([
             'errors' => [
                 [
                     'status' => '422',
                     'title' => 'Validation Error.',
-                    'detail' => 'The selected data.attributes.type is invalid.',
+                    'detail' => 'The data.attributes.color field must be a valid hexadecimal color.',
                 ],
             ],
         ]);

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Resources\Api\V1\Categories;
+namespace App\Http\Resources\Api\V1\Tags;
 
-use App\Models\Category;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CategoryResource extends JsonResource
+class TagResource extends JsonResource
 {
     /**
      * Convert the model instance to an array.
@@ -21,20 +21,20 @@ class CategoryResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        /** @var Category $this */
+        /** @var Tag $this */
         return [ // @phpstan-ignore-line varTag.nativeType
-            'type' => 'category',
+            'type' => 'tag',
             'id' => $this->id,
             'attributes' => [
                 'name' => $this->name,
-                'type' => $this->type,
                 'balance' => intval($this->balance),
+                'color' => $this->color,
                 'teamId' => $this->team_id,
                 'createdAt' => $this->created_at,
                 'updatedAt' => $this->updated_at,
             ],
             'links' => [
-                'self' => route('api.v1.categories.show', ['category' => $this->id]),
+                'self' => route('api.v1.tags.show', ['tag' => $this->id]),
             ],
         ];
     }

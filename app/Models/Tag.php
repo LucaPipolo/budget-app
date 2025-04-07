@@ -11,9 +11,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @property string $currency
+ * @property string $color
  */
-class Account extends Model
+class Tag extends Model
 {
     use HasFactory;
     use HasUuids;
@@ -21,7 +21,7 @@ class Account extends Model
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
     /**
-     * The account/team relationship.
+     * The tag/team relationship.
      *
      * @return BelongsTo The relationship.
      */
@@ -30,11 +30,11 @@ class Account extends Model
         return $this->belongsTo(Team::class);
     }
 
-    protected function currency(): Attribute
+    protected function color(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => mb_strtoupper($value),
-            set: fn (string $value) => mb_strtoupper($value),
+            get: fn (string $value) => mb_strtolower($value),
+            set: fn (string $value) => mb_strtolower($value),
         );
     }
 }

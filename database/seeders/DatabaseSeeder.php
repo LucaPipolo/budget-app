@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             AccountSeeder::class,
             MerchantSeeder::class,
             CategorySeeder::class,
+            TagSeeder::class,
         ]);
     }
 }

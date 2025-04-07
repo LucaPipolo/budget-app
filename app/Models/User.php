@@ -144,6 +144,23 @@ class User extends Authenticatable implements FilamentUser, HasTenants, MustVeri
     }
 
     /**
+     * Establish the user/tags relationship.
+     *
+     * @return HasManyThrough The user/tags relationship.
+     */
+    public function tags(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Tag::class,
+            Team::class,
+            'user_id',
+            'team_id',
+        )->whereHas('team', function (Builder $query): void {
+            $query->whereIn('id', $this->allTeams()->pluck('id'));
+        })->distinct();
+    }
+
+    /**
      * The "booting" method of the model.
      */
     protected static function boot(): void
