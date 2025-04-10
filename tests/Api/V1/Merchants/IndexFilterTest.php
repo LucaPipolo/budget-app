@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Models\Merchant;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Laravel\Sanctum\Sanctum;
 
 test('merchants can be filtered by name', function (): void {
@@ -34,9 +35,15 @@ test('merchants can be filtered by balance', function (): void {
     $user = User::factory()->withPersonalTeam()->create();
 
     /** @var Collection<int, Merchant> $merchants */
-    $merchants = Merchant::factory(3)->create([
-        'team_id' => $user->currentTeam->id,
-    ]);
+    $merchants = Merchant::factory()
+        ->count(3)
+        ->state(new Sequence(
+            fn () => [
+                'team_id' => $user->currentTeam->id,
+                'balance' => rand(0, 130000),
+            ]
+        ))
+        ->create();
     $filteredMerchant = $merchants->random();
 
     Sanctum::actingAs($user, ['read']);
