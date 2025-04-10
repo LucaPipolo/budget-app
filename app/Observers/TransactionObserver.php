@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Observers;
 
+use App\Models\MerchantBalance;
 use App\Models\Transaction;
 use App\Services\BalanceService;
 use Illuminate\Support\Facades\DB;
@@ -29,6 +30,7 @@ class TransactionObserver
     {
         DB::transaction(function () use ($transaction): void {
             $this->balanceService->updateBalancesForNewTransaction($transaction);
+            $this->refreshViews();
         });
     }
 
@@ -51,6 +53,8 @@ class TransactionObserver
                 $originalTransaction
             );
         });
+
+        $this->refreshViews();
     }
 
     /**
@@ -64,6 +68,7 @@ class TransactionObserver
     {
         DB::transaction(function () use ($transaction): void {
             $this->balanceService->updateBalancesForDeletedTransaction($transaction);
+            $this->refreshViews();
         });
     }
 
@@ -78,6 +83,15 @@ class TransactionObserver
     {
         DB::transaction(function () use ($transaction): void {
             $this->balanceService->updateBalancesForNewTransaction($transaction);
+            $this->refreshViews();
         });
+    }
+
+    /**
+     * Refresh balances materialized views.
+     */
+    public function refreshViews(): void
+    {
+        MerchantBalance::refreshView();
     }
 }
