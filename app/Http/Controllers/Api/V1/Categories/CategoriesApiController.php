@@ -9,8 +9,10 @@ use App\Http\Controllers\Api\V1\ApiController;
 use App\Http\Requests\Api\V1\Categories\StoreCategoryRequest;
 use App\Http\Requests\Api\V1\Categories\UpdateCategoryRequest;
 use App\Http\Resources\Api\V1\Categories\CategoryResource;
+use App\Http\Resources\Api\V1\Transactions\TransactionResource;
 use App\Models\Category;
 use App\Policies\CategoryPolicy;
+use App\Traits\HasIncludedResources;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
@@ -22,10 +24,27 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class CategoriesApiController extends ApiController
 {
+    use HasIncludedResources;
+
     /**
      * The policy class that handles authorization for the resource.
      */
     protected string $policyClass = CategoryPolicy::class;
+
+    /**
+     * Included resources.
+     */
+    protected array $includedResources = [];
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->includedResources = [
+            'transactions' => ['transactions', TransactionResource::class],
+        ];
+    }
 
     /**
      * List categories.
@@ -45,6 +64,7 @@ class CategoriesApiController extends ApiController
 
         /** @var Collection<int, Category> $categories */
         $categories = QueryBuilder::for(Category::class)
+            ->allowedIncludes(['transactions'])
             ->allowedFilters([
                 'name',
                 AllowedFilter::exact('teamId', 'team_id')->ignore(null),
@@ -96,6 +116,7 @@ class CategoriesApiController extends ApiController
     {
         /** @var Category $category */
         $category = QueryBuilder::for(Category::class)
+            ->allowedIncludes(['transactions'])
             ->findOrFail($category_id);
 
         $this->isAble('view', $category, 'read');

@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\Accounts\AccountsApiController;
 use App\Http\Controllers\Api\V1\Accounts\AccountTransactionsApiController;
 use App\Http\Controllers\Api\V1\AuthApiController;
 use App\Http\Controllers\Api\V1\Categories\CategoriesApiController;
+use App\Http\Controllers\Api\V1\Categories\CategoryTransactionsApiController;
 use App\Http\Controllers\Api\V1\HealthApiController;
 use App\Http\Controllers\Api\V1\Merchants\MerchantsApiController;
 use App\Http\Controllers\Api\V1\Merchants\MerchantTransactionsApiController;
@@ -118,6 +119,13 @@ Route::prefix('v1')->group(function (): void {
             ->name('api.v1.categories.replace');
         Route::patch('categories/{category}', [CategoriesApiController::class, 'update'])
             ->name('api.v1.categories.update');
+
+        Route::get('categories/{category}/relationships/transactions', [
+            CategoryTransactionsApiController::class, 'transactionsRelationships',
+        ])
+            ->name('api.v1.categories.relationships.transactions');
+        Route::get('categories/{category}/transactions', [CategoryTransactionsApiController::class, 'transactions'])
+            ->name('api.v1.categories.transactions');
 
         // Tags
         Route::apiResource('tags', TagsApiController::class)->names('api.v1.tags')->except(['update']);
