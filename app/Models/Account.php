@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property string $currency
+ *
+ * @method whenLoaded(string $string, \Closure $param)
  */
 class Account extends Model
 {

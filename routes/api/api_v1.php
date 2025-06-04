@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\V1\Teams\TeamMerchantsApiController;
 use App\Http\Controllers\Api\V1\Teams\TeamsApiController;
 use App\Http\Controllers\Api\V1\Teams\TeamTagsApiController;
 use App\Http\Controllers\Api\V1\Teams\TeamUsersApiController;
+use App\Http\Controllers\Api\V1\Transactions\TransactionsApiController;
 use App\Http\Controllers\Api\V1\Uploads\UploadApiController;
 
 Route::prefix('v1')->group(function (): void {
@@ -100,5 +101,14 @@ Route::prefix('v1')->group(function (): void {
             ->name('api.v1.tags.replace');
         Route::patch('tags/{tag}', [TagsApiController::class, 'update'])
             ->name('api.v1.tags.update');
+
+        // Transactions
+        Route::apiResource('transactions', TransactionsApiController::class)
+            ->names('api.v1.transactions')
+            ->except(['update']);
+        Route::put('transactions/{transaction}', [TransactionsApiController::class, 'replace'])
+            ->name('api.v1.transactions.replace');
+        Route::patch('transactions/{transaction}', [TransactionsApiController::class, 'update'])
+            ->name('api.v1.transactions.update');
     });
 });
