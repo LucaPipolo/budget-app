@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\V1\AuthApiController;
 use App\Http\Controllers\Api\V1\Categories\CategoriesApiController;
 use App\Http\Controllers\Api\V1\HealthApiController;
 use App\Http\Controllers\Api\V1\Merchants\MerchantsApiController;
+use App\Http\Controllers\Api\V1\Merchants\MerchantTransactionsApiController;
 use App\Http\Controllers\Api\V1\Tags\TagsApiController;
 use App\Http\Controllers\Api\V1\Teams\TeamAccountsApiController;
 use App\Http\Controllers\Api\V1\Teams\TeamCategoriesApiController;
@@ -101,6 +102,13 @@ Route::prefix('v1')->group(function (): void {
             ->name('api.v1.merchants.replace');
         Route::patch('merchants/{merchant}', [MerchantsApiController::class, 'update'])
             ->name('api.v1.merchants.update');
+
+        Route::get('merchants/{merchant}/relationships/transactions', [
+            MerchantTransactionsApiController::class, 'transactionsRelationships',
+        ])
+            ->name('api.v1.merchants.relationships.transactions');
+        Route::get('merchants/{merchant}/transactions', [MerchantTransactionsApiController::class, 'transactions'])
+            ->name('api.v1.merchants.transactions');
 
         // Categories
         Route::apiResource('categories', CategoriesApiController::class)
