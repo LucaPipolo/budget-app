@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Observers;
 
+use App\Models\CategoryBalance;
 use App\Models\MerchantBalance;
 use App\Models\Transaction;
 use App\Services\BalanceService;
@@ -93,5 +94,6 @@ class TransactionObserver
     public function refreshViews(): void
     {
         MerchantBalance::refreshView();
+        CategoryBalance::refreshView();
     }
 }

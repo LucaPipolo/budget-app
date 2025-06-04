@@ -4,27 +4,36 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\Models\CategoryBalance;
 use App\Models\MerchantBalance;
 use Illuminate\Console\Command;
 
 class RefreshBalancesCommand extends Command
 {
     protected $signature = 'balances:refresh
-                            {--merchants : Update only the merchant balances}';
+                            {--merchants : Update only the merchant balances}
+                            {--categories : Update only the categories balances}';
 
-    protected $description = 'Update the materialized views for merchant balances.';
+    protected $description = 'Update the materialized views for merchant, and category balances.';
 
     public function handle(): int
     {
         $refreshMerchants = $this->option('merchants');
+        $refreshCategories = $this->option('categories');
 
-        $refreshAll = ! $refreshMerchants;
+        $refreshAll = ! $refreshMerchants && ! $refreshCategories;
 
         try {
             if ($refreshMerchants || $refreshAll) {
                 $this->info('Updating the materialized view merchant_balances...');
                 MerchantBalance::refreshView();
                 $this->info('Materialized view merchant_balances updated successfully.');
+            }
+
+            if ($refreshCategories || $refreshAll) {
+                $this->info('Updating the materialized view category_balances...');
+                CategoryBalance::refreshView();
+                $this->info('Materialized view category_balances updated successfully.');
             }
 
             return 0;
