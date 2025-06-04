@@ -9,9 +9,11 @@ use App\Http\Controllers\Api\V1\ApiController;
 use App\Http\Requests\Api\V1\Accounts\StoreAccountRequest;
 use App\Http\Requests\Api\V1\Accounts\UpdateAccountRequest;
 use App\Http\Resources\Api\V1\Accounts\AccountResource;
+use App\Http\Resources\Api\V1\Transactions\TransactionResource;
 use App\Models\Account;
 use App\Models\Merchant;
 use App\Policies\AccountPolicy;
+use App\Traits\HasIncludedResources;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
@@ -24,10 +26,27 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class AccountsApiController extends ApiController
 {
+    use HasIncludedResources;
+
     /**
      * The policy class that handles authorization for the resource.
      */
     protected string $policyClass = AccountPolicy::class;
+
+    /**
+     * Included resources.
+     */
+    protected array $includedResources = [];
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->includedResources = [
+            'transactions' => ['transactions', TransactionResource::class],
+        ];
+    }
 
     /**
      * List accounts.
@@ -47,6 +66,7 @@ class AccountsApiController extends ApiController
 
         /** @var Collection<int, Account> $accounts */
         $accounts = QueryBuilder::for(Account::class)
+            ->allowedIncludes(['transactions'])
             ->allowedFilters([
                 'name',
                 'iban',
@@ -107,6 +127,7 @@ class AccountsApiController extends ApiController
     {
         /** @var Account $account */
         $account = QueryBuilder::for(Account::class)
+            ->allowedIncludes(['transactions'])
             ->findOrFail($account_id);
 
         $this->isAble('view', $account, 'read');
