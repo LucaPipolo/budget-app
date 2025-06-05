@@ -81,6 +81,14 @@ class Team extends JetstreamTeam
     }
 
     /**
+     * Get the transactions associated with this team.
+     */
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+    /**
      * The "booting" method of the model.
      */
     protected static function boot(): void

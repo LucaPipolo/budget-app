@@ -22,7 +22,7 @@ class MerchantFactory extends Factory
     {
         return [
             'name' => $this->faker->unique()->company(),
-            'balance' => $this->faker->numberBetween(0, 130000),
+            'balance' => 0,
             'team_id' => Team::inRandomOrder()->first()->id,
             'logo_path' => $this->faker->imageUrl(640, 480, 'business'),
 

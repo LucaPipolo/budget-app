@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Exceptions\TooManyRequestsException;
+use App\Models\Transaction;
+use App\Observers\TransactionObserver;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
@@ -47,5 +49,7 @@ class AppServiceProvider extends ServiceProvider
                 throw new TooManyRequestsException();
             });
         });
+
+        Transaction::observe(TransactionObserver::class);
     }
 }

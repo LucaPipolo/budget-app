@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Models\Account;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Laravel\Sanctum\Sanctum;
 
 test('accounts can be filtered by name', function (): void {
@@ -173,9 +174,15 @@ test('accounts can be filtered by balance', function (): void {
     $user = User::factory()->withPersonalTeam()->create();
 
     /** @var Collection<int, Account> $accounts */
-    $accounts = Account::factory(3)->create([
-        'team_id' => $user->currentTeam->id,
-    ]);
+    $accounts = Account::factory()
+        ->count(3)
+        ->state(new Sequence(
+            fn () => [
+                'team_id' => $user->currentTeam->id,
+                'balance' => rand(-30000, 130000),
+            ]
+        ))
+        ->create();
     $filteredAccount = $accounts->random();
 
     Sanctum::actingAs($user, ['read']);

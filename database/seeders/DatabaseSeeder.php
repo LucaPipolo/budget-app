@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             MerchantSeeder::class,
             CategorySeeder::class,
             TagSeeder::class,
+            TransactionSeeder::class,
         ]);
     }
 }
