@@ -12,6 +12,7 @@ use App\Http\Resources\Api\V1\Categories\CategoryResource;
 use App\Http\Resources\Api\V1\Merchants\MerchantResource;
 use App\Http\Resources\Api\V1\Tags\TagResource;
 use App\Http\Resources\Api\V1\Teams\TeamResource;
+use App\Http\Resources\Api\V1\Transactions\TransactionResource;
 use App\Http\Resources\Api\V1\UserResource;
 use App\Models\Team;
 use App\Policies\TeamPolicy;
@@ -54,6 +55,7 @@ class TeamsApiController extends ApiController
             'merchants' => ['merchants', MerchantResource::class],
             'categories' => ['categories', CategoryResource::class],
             'tags' => ['tags', TagResource::class],
+            'transactions' => ['transactions', TransactionResource::class],
         ];
     }
 
@@ -75,7 +77,7 @@ class TeamsApiController extends ApiController
 
         /** @var Collection<int, Team> $teams */
         $teams = QueryBuilder::for(Team::class)
-            ->allowedIncludes(['users', 'accounts', 'merchants', 'categories', 'tags'])
+            ->allowedIncludes(['users', 'accounts', 'merchants', 'categories', 'tags', 'transactions'])
             ->allowedFilters(['name'])
             ->allowedSorts([
                 'name',
@@ -129,7 +131,7 @@ class TeamsApiController extends ApiController
     {
         /** @var Team $team */
         $team = QueryBuilder::for(Team::class)
-            ->allowedIncludes(['users', 'accounts', 'merchants', 'categories', 'tags'])
+            ->allowedIncludes(['users', 'accounts', 'merchants', 'categories', 'tags', 'transactions'])
             ->findOrFail($team_id);
 
         $this->isAble('view', $team, 'read');

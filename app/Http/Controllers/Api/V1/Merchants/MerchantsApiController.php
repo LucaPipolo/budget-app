@@ -9,8 +9,10 @@ use App\Http\Controllers\Api\V1\ApiController;
 use App\Http\Requests\Api\V1\Merchants\StoreMerchantRequest;
 use App\Http\Requests\Api\V1\Merchants\UpdateMerchantRequest;
 use App\Http\Resources\Api\V1\Merchants\MerchantResource;
+use App\Http\Resources\Api\V1\Transactions\TransactionResource;
 use App\Models\Merchant;
 use App\Policies\MerchantPolicy;
+use App\Traits\HasIncludedResources;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
@@ -23,10 +25,27 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class MerchantsApiController extends ApiController
 {
+    use HasIncludedResources;
+
     /**
      * The policy class that handles authorization for the resource.
      */
     protected string $policyClass = MerchantPolicy::class;
+
+    /**
+     * Included resources.
+     */
+    protected array $includedResources = [];
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->includedResources = [
+            'transactions' => ['transactions', TransactionResource::class],
+        ];
+    }
 
     /**
      * List merchants.
@@ -46,6 +65,7 @@ class MerchantsApiController extends ApiController
 
         /** @var Collection<int, Merchant> $merchants */
         $merchants = QueryBuilder::for(Merchant::class)
+            ->allowedIncludes(['transactions'])
             ->allowedFilters([
                 'name',
                 AllowedFilter::exact('teamId', 'team_id')->ignore(null),
@@ -96,6 +116,7 @@ class MerchantsApiController extends ApiController
     {
         /** @var Merchant $merchant */
         $merchant = QueryBuilder::for(Merchant::class)
+            ->allowedIncludes(['transactions'])
             ->findOrFail($merchant_id);
 
         $this->isAble('view', $merchant, 'read');

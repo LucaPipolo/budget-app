@@ -3,17 +3,22 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Api\V1\Accounts\AccountsApiController;
+use App\Http\Controllers\Api\V1\Accounts\AccountTransactionsApiController;
 use App\Http\Controllers\Api\V1\AuthApiController;
 use App\Http\Controllers\Api\V1\Categories\CategoriesApiController;
+use App\Http\Controllers\Api\V1\Categories\CategoryTransactionsApiController;
 use App\Http\Controllers\Api\V1\HealthApiController;
 use App\Http\Controllers\Api\V1\Merchants\MerchantsApiController;
+use App\Http\Controllers\Api\V1\Merchants\MerchantTransactionsApiController;
 use App\Http\Controllers\Api\V1\Tags\TagsApiController;
 use App\Http\Controllers\Api\V1\Teams\TeamAccountsApiController;
 use App\Http\Controllers\Api\V1\Teams\TeamCategoriesApiController;
 use App\Http\Controllers\Api\V1\Teams\TeamMerchantsApiController;
 use App\Http\Controllers\Api\V1\Teams\TeamsApiController;
 use App\Http\Controllers\Api\V1\Teams\TeamTagsApiController;
+use App\Http\Controllers\Api\V1\Teams\TeamTransactionsApiController;
 use App\Http\Controllers\Api\V1\Teams\TeamUsersApiController;
+use App\Http\Controllers\Api\V1\Transactions\TransactionsApiController;
 use App\Http\Controllers\Api\V1\Uploads\UploadApiController;
 
 Route::prefix('v1')->group(function (): void {
@@ -71,6 +76,13 @@ Route::prefix('v1')->group(function (): void {
         Route::get('teams/{team}/tags', [TeamTagsApiController::class, 'tags'])
             ->name('api.v1.teams.tags');
 
+        Route::get('teams/{team}/relationships/transactions', [
+            TeamTransactionsApiController::class, 'transactionsRelationships',
+        ])
+            ->name('api.v1.teams.relationships.transactions');
+        Route::get('teams/{team}/transactions', [TeamTransactionsApiController::class, 'transactions'])
+            ->name('api.v1.teams.transactions');
+
         // Accounts
         Route::apiResource('accounts', AccountsApiController::class)->names('api.v1.accounts')->except(['update']);
         Route::put('accounts/{account}', [AccountsApiController::class, 'replace'])
@@ -78,12 +90,26 @@ Route::prefix('v1')->group(function (): void {
         Route::patch('accounts/{account}', [AccountsApiController::class, 'update'])
             ->name('api.v1.accounts.update');
 
+        Route::get('accounts/{account}/relationships/transactions', [
+            AccountTransactionsApiController::class, 'transactionsRelationships',
+        ])
+            ->name('api.v1.accounts.relationships.transactions');
+        Route::get('accounts/{account}/transactions', [AccountTransactionsApiController::class, 'transactions'])
+            ->name('api.v1.accounts.transactions');
+
         // Merchants
         Route::apiResource('merchants', MerchantsApiController::class)->names('api.v1.merchants')->except(['update']);
         Route::put('merchants/{merchant}', [MerchantsApiController::class, 'replace'])
             ->name('api.v1.merchants.replace');
         Route::patch('merchants/{merchant}', [MerchantsApiController::class, 'update'])
             ->name('api.v1.merchants.update');
+
+        Route::get('merchants/{merchant}/relationships/transactions', [
+            MerchantTransactionsApiController::class, 'transactionsRelationships',
+        ])
+            ->name('api.v1.merchants.relationships.transactions');
+        Route::get('merchants/{merchant}/transactions', [MerchantTransactionsApiController::class, 'transactions'])
+            ->name('api.v1.merchants.transactions');
 
         // Categories
         Route::apiResource('categories', CategoriesApiController::class)
@@ -94,11 +120,27 @@ Route::prefix('v1')->group(function (): void {
         Route::patch('categories/{category}', [CategoriesApiController::class, 'update'])
             ->name('api.v1.categories.update');
 
+        Route::get('categories/{category}/relationships/transactions', [
+            CategoryTransactionsApiController::class, 'transactionsRelationships',
+        ])
+            ->name('api.v1.categories.relationships.transactions');
+        Route::get('categories/{category}/transactions', [CategoryTransactionsApiController::class, 'transactions'])
+            ->name('api.v1.categories.transactions');
+
         // Tags
         Route::apiResource('tags', TagsApiController::class)->names('api.v1.tags')->except(['update']);
         Route::put('tags/{tag}', [TagsApiController::class, 'replace'])
             ->name('api.v1.tags.replace');
         Route::patch('tags/{tag}', [TagsApiController::class, 'update'])
             ->name('api.v1.tags.update');
+
+        // Transactions
+        Route::apiResource('transactions', TransactionsApiController::class)
+            ->names('api.v1.transactions')
+            ->except(['update']);
+        Route::put('transactions/{transaction}', [TransactionsApiController::class, 'replace'])
+            ->name('api.v1.transactions.replace');
+        Route::patch('transactions/{transaction}', [TransactionsApiController::class, 'update'])
+            ->name('api.v1.transactions.update');
     });
 });

@@ -22,7 +22,7 @@ class CategoryFactory extends Factory
         return [
             'name' => $this->faker->unique()->company(),
             'type' => $this->faker->randomElement(['income', 'outcome']),
-            'balance' => $this->faker->numberBetween(0, 130000),
+            'balance' => 0,
             'team_id' => Team::inRandomOrder()->first()->id,
 
             'created_at' => $this->faker->dateTimeBetween('-1 year'),

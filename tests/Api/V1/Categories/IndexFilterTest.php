@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Laravel\Sanctum\Sanctum;
 
 test('categories can be filtered by name', function (): void {
@@ -65,9 +66,15 @@ test('categories can be filtered by balance', function (): void {
     $user = User::factory()->withPersonalTeam()->create();
 
     /** @var Collection<int, Category> $categories */
-    $categories = Category::factory(3)->create([
-        'team_id' => $user->currentTeam->id,
-    ]);
+    $categories = Category::factory()
+        ->count(3)
+        ->state(new Sequence(
+            fn () => [
+                'team_id' => $user->currentTeam->id,
+                'balance' => rand(0, 130000),
+            ]
+        ))
+        ->create();
     $filteredCategory = $categories->random();
 
     Sanctum::actingAs($user, ['read']);
