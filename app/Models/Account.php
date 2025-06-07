@@ -43,6 +43,16 @@ class Account extends Model
         return $this->hasMany(Transaction::class);
     }
 
+    /**
+     * Ensure empty IBAN values are stored as null.
+     *
+     * @param  string  $value  The IBAN value.
+     */
+    public function setIbanAttribute(string $value): void
+    {
+        $this->attributes['iban'] = $value === '' ? null : $value;
+    }
+
     protected function currency(): Attribute
     {
         return Attribute::make(
